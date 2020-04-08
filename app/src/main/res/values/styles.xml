@@ -3,10 +3,14 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorVibrantBlue</item>
+        <item name="colorPrimaryDark">@color/colorCapgeminiBlue</item>
+        <item name="colorAccent">@color/colorTechRed</item>
+    </style>
 
+    <!-- Toolbar popup menu theme -->
+    <style name="ToolbarMenuStyle" parent="Theme.AppCompat.Light">
+        <item name="android:background">@android:color/white</item>
     </style>
 
 </resources>

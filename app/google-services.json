@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "857006300765",
+    "firebase_url": "https://anonymous-messaging-app.firebaseio.com",
+    "project_id": "anonymous-messaging-app",
+    "storage_bucket": "anonymous-messaging-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857006300765:android:4e79b70b2ae18b3e21f7b4",
+        "android_client_info": {
+          "package_name": "com.brownjs.anonymousmessagingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "857006300765-otpsnfe31a0gv8mkvctmr6dvoq4re16p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjFQ-G1o8J1VvD5CmNglV73Pisz48GcKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "857006300765-otpsnfe31a0gv8mkvctmr6dvoq4re16p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
