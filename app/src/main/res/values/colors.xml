@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/colorCapgeminiBlue</color>
+    <color name="colorPrimaryDark">@color/colorDeepPurple</color>
+    <color name="colorAccent">@color/colorTechRed</color>
+
+    <!-- Capgemini primary palette -->
+    <color name="colorCapgeminiBlue">#0070ad</color>
+    <color name="colorVibrantBlue">#12abdb</color>
+    <color name="colorDeepPurple">#2b0a3d</color>
+    <color name="colorTechRed">#ff304c</color>
+    <color name="colorZestGreen">#95e616</color>
+    <color name="colorGray">#ececec</color>
+
+</resources>
