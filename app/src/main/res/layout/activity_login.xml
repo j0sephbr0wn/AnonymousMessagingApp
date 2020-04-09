@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        layout="@layout/common_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,6 +77,6 @@
 
     <include
         android:id="@+id/loading_page"
-        layout="@layout/loading_page" />
+        layout="@layout/common_loading" />
 
 </RelativeLayout>

@@ -27,16 +27,16 @@ public abstract class MyAppActivity extends AppCompatActivity {
                 Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
                 Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
                 Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
-                Build.USER.length() % 10 + "@capgemini.com";
+                Build.USER.length() % 10 + "@anonymous.com";
     }
 
     /**
      * Display loading animation
-     *
-     * @param animationObject the object (image) that will be animated
-     * @param layout the parent layout of the animationObject
      */
-    public void startLoading(ImageView animationObject, LinearLayout layout) {
+    public void startLoadingAnimation() {
+
+        ImageView animationObject = findViewById(R.id.loading_spade);
+        LinearLayout layout = findViewById(R.id.loading_page);
 
         // build animation
         RotateAnimation rotate = new RotateAnimation(0, 360,
@@ -53,11 +53,11 @@ public abstract class MyAppActivity extends AppCompatActivity {
 
     /**
      * Remove loading animation
-     *
-     * @param animationObject the object (image) that will be animated
-     * @param layout the parent layout of the animationObject
      */
-    public void finishLoading(ImageView animationObject, LinearLayout layout) {
+    public void endLoadingAnimation() {
+
+        ImageView animationObject = findViewById(R.id.loading_spade);
+        LinearLayout layout = findViewById(R.id.loading_page);
 
         // hide and clear animation
         layout.setVisibility(View.GONE);

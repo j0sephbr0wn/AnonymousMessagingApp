@@ -1,4 +1,4 @@
-<resources xmlns:app="http://schemas.android.com/apk/res-auto">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -8,9 +8,15 @@
         <item name="colorAccent">@color/colorTechRed</item>
     </style>
 
-    <!-- Toolbar popup menu theme -->
+    <!-- toolbar popup menu theme -->
     <style name="ToolbarMenuStyle" parent="Theme.AppCompat.Light">
-        <item name="android:background">@android:color/white</item>
+        <item name="android:background">@color/colorGray</item>
+    </style>
+
+    <!-- tab layout text style changes -->
+    <style name="TabLayoutTextFont" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="fontFamily">@font/ubuntu</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
 </resources>

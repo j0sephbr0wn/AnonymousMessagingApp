@@ -6,8 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,8 +29,6 @@ public class RegisterActivity extends MyAppActivity {
     private EditText editText_reg_email;
     private EditText editText_reg_password;
     private EditText editText_reg_username;
-    private ImageView loading_spade;
-    private LinearLayout loading_page;
 
     /**
      * {@inheritDoc}
@@ -44,7 +40,7 @@ public class RegisterActivity extends MyAppActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // setup toolbar
+        // setup common_toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -56,8 +52,6 @@ public class RegisterActivity extends MyAppActivity {
         editText_reg_email = findViewById(R.id.editText_reg_email);
         editText_reg_password = findViewById(R.id.editText_reg_password);
         editText_reg_username = findViewById(R.id.editText_reg_username);
-        loading_spade = findViewById(R.id.loading_spade);
-        loading_page = findViewById(R.id.loading_page);
         Button btn_reg_cred = findViewById(R.id.btn_reg_cred);
         Button btn_reg_anon = findViewById(R.id.btn_reg_anon);
 
@@ -126,7 +120,7 @@ public class RegisterActivity extends MyAppActivity {
     private void register(final String email, String password, final String username) {
 
         // display loading animation
-        startLoading(loading_spade, loading_page);
+        startLoadingAnimation();
 
         // get Firebase auth instance
         final FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -148,12 +142,13 @@ public class RegisterActivity extends MyAppActivity {
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
                             // build document
-                            HashMap<String, String> hashMap = new HashMap<>();
+                            HashMap<String, Object> hashMap = new HashMap<>();
                             hashMap.put("id", userId);
                             hashMap.put("email", email);
                             hashMap.put("username", username);
                             hashMap.put("imageURL", "default");
                             hashMap.put("description", "No description set");
+                            hashMap.put("champion", email.endsWith("@capgemini.com"));
                             hashMap.put("status", "offline");
 
                             // put document in table and
@@ -174,7 +169,7 @@ public class RegisterActivity extends MyAppActivity {
                         }
 
                         // remover loading animation
-                        finishLoading(loading_spade, loading_page);
+                        endLoadingAnimation();
                     }
                 });
     }

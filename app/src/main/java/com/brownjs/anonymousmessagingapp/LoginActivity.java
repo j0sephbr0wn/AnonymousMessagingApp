@@ -6,8 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,8 +23,6 @@ public class LoginActivity extends MyAppActivity {
 
     private EditText editText_login_email;
     private EditText editText_login_password;
-    private LinearLayout loading_page;
-    private ImageView loading_spade;
 
     private FirebaseAuth firebaseAuth;
 
@@ -39,7 +35,7 @@ public class LoginActivity extends MyAppActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // setup toolbar
+        // setup common_toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -50,8 +46,6 @@ public class LoginActivity extends MyAppActivity {
         // get layout elements
         editText_login_email = findViewById(R.id.editText_login_email);
         editText_login_password = findViewById(R.id.editText_login_password);
-        loading_spade = findViewById(R.id.loading_spade);
-        loading_page = findViewById(R.id.loading_page);
         Button btn_login_cred = findViewById(R.id.btn_login_cred);
         Button btn_login_anon = findViewById(R.id.btn_login_anon);
 
@@ -113,7 +107,7 @@ public class LoginActivity extends MyAppActivity {
      */
     private void login(String email, String password) {
 
-        startLoading(loading_spade, loading_page);
+        startLoadingAnimation();
 
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -127,7 +121,7 @@ public class LoginActivity extends MyAppActivity {
                     Toast.makeText(LoginActivity.this, "Authentication unsuccessful.", Toast.LENGTH_LONG).show();
                 }
 
-                finishLoading(loading_spade, loading_page);
+                endLoadingAnimation();
             }
 
             //TODO remove loading text/animation

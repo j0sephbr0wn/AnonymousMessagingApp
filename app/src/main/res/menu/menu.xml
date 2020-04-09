@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--
     <item
-        android:id="@+id/options"
-        android:title="Options"
+        android:id="@+id/profile"
+        android:title="Profile"
         app:showAsAction="never" />
+    <!--
     <item
         android:id="@+id/admin"
         android:title="Administration"

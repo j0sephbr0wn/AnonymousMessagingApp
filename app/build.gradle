@@ -45,8 +45,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.3.0'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
 
-    // custom EditText for Login and Register fragments
-    //implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+    // circle imageView for profile images
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
