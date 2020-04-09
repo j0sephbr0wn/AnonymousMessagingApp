@@ -1,13 +1,9 @@
 package com.brownjs.anonymousmessagingapp;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,7 +26,7 @@ import java.util.HashMap;
 /**
  * Activity to allow new users to register for the application
  */
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends MyAppActivity {
 
     private EditText editText_reg_email;
     private EditText editText_reg_password;
@@ -94,15 +89,9 @@ public class RegisterActivity extends AppCompatActivity {
         btn_reg_anon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // build a (nearly) unique id from the users hardware
-                String pseudoId = "00" +
-                        Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
-                        Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
-                        Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 +
-                        Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
-                        Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
-                        Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
-                        Build.USER.length() % 10 + "@capgemini.com";
+
+                // get pseudoId
+                String pseudoId = buildPseudoId();
 
                 // password doesn't matter, set it to a default string
                 String password = "default_password";
@@ -137,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void register(final String email, String password, final String username) {
 
         // display loading animation
-        startLoading();
+        startLoading(loading_spade, loading_page);
 
         // get Firebase auth instance
         final FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -185,37 +174,8 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
                         // remover loading animation
-                        finishLoading();
+                        finishLoading(loading_spade, loading_page);
                     }
                 });
-    }
-
-    /**
-     * Display loading animation
-     */
-    private void startLoading() {
-
-        // build animation
-        RotateAnimation rotate = new RotateAnimation(0, 360,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        rotate.setDuration(1000);
-        rotate.setRepeatCount(Animation.INFINITE);
-        rotate.setInterpolator(new LinearInterpolator());
-
-        // set animation to image and display
-        loading_spade.startAnimation(rotate);
-        loading_page.setVisibility(View.VISIBLE);
-
-    }
-
-    /**
-     * Remove loading animation
-     */
-    private void finishLoading() {
-
-        // hide and clear animation
-        loading_page.setVisibility(View.GONE);
-        loading_spade.clearAnimation();
-
     }
 }

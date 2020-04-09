@@ -12,13 +12,12 @@
         android:id="@+id/loading_spade"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/spade"
-        android:contentDescription="Capgemini spade logo" />
+        android:contentDescription="Capgemini spade logo"
+        android:src="@drawable/spade" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/loading_spade"
         android:fontFamily="@font/ubuntu"
         android:gravity="center"
         android:text="Loading..."
