@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#90000000"
+    android:background="@color/colorTransparentDark"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="8dp"
@@ -12,7 +12,8 @@
         android:id="@+id/loading_spade"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/spade" />
+        android:src="@drawable/spade"
+        android:contentDescription="Capgemini spade logo" />
 
     <TextView
         android:layout_width="match_parent"

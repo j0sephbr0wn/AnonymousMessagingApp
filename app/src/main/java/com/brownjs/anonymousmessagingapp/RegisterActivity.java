@@ -3,6 +3,7 @@ package com.brownjs.anonymousmessagingapp;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -27,16 +28,22 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+/**
+ * Activity to allow new users to register for the application
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText editText_reg_email;
     private EditText editText_reg_password;
     private EditText editText_reg_username;
+    private ImageView loading_spade;
     private LinearLayout loading_page;
 
-    private FirebaseAuth auth;
-    private DatabaseReference reference;
-
+    /**
+     * {@inheritDoc}
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,24 +52,19 @@ public class RegisterActivity extends AppCompatActivity {
         // setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Register");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         // get layout elements
         editText_reg_email = findViewById(R.id.editText_reg_email);
         editText_reg_password = findViewById(R.id.editText_reg_password);
         editText_reg_username = findViewById(R.id.editText_reg_username);
+        loading_spade = findViewById(R.id.loading_spade);
         loading_page = findViewById(R.id.loading_page);
-//        spinner_business_unit = findViewById(R.id.spinner_business_unit);
-        //    private Spinner spinner_business_unit;
         Button btn_reg_cred = findViewById(R.id.btn_reg_cred);
         Button btn_reg_anon = findViewById(R.id.btn_reg_anon);
-
-        //populate spinner
-//        addBusinessUnitsToSpinner();
-
-        // get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
 
         // set btn listeners
         btn_reg_cred.setOnClickListener(new View.OnClickListener() {
@@ -83,8 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // check email is Capgemini email address
                 else if (!email.endsWith("@capgemini.com")) {
                     Toast.makeText(RegisterActivity.this, "Email must be a Capgemini address.", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     register(email, password, username);
                 }
             }
@@ -96,12 +97,12 @@ public class RegisterActivity extends AppCompatActivity {
                 // build a (nearly) unique id from the users hardware
                 String pseudoId = "00" +
                         Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
-                                Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
-                                Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 +
-                                Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
-                                Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
-                                Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
-                                Build.USER.length() % 10 + "@capgemini.com";
+                        Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
+                        Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 +
+                        Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
+                        Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
+                        Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
+                        Build.USER.length() % 10 + "@capgemini.com";
 
                 // password doesn't matter, set it to a default string
                 String password = "default_password";
@@ -114,33 +115,63 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Function is overwritten to give the same animation as using the device 'Back' command
+     * {@inheritDoc}
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        onBackPressed();
+        return true;
+    }
+
+    /**
+     * @param email    user wishes to register with
+     * @param password user wishes to register with
+     * @param username user wishes to register with
+     */
     private void register(final String email, String password, final String username) {
 
+        // display loading animation
         startLoading();
 
+        // get Firebase auth instance
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        // create new account
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        // if new account is created successfully, create new User in database
                         if (task.isSuccessful()) {
                             FirebaseUser firebaseUser = auth.getCurrentUser();
                             assert firebaseUser != null;
-                            String userid = firebaseUser.getUid();
 
-                            reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+                            // get the userId of the user just created
+                            String userId = firebaseUser.getUid();
 
+                            // get reference to the User document
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+
+                            // build document
                             HashMap<String, String> hashMap = new HashMap<>();
-                            hashMap.put("id", userid);
+                            hashMap.put("id", userId);
                             hashMap.put("email", email);
                             hashMap.put("username", username);
                             hashMap.put("imageURL", "default");
                             hashMap.put("description", "No description set");
-                            hashMap.put("businessUnit", "No BU set");
                             hashMap.put("status", "offline");
 
+                            // put document in table and
                             reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
+                                    // if user added successfully move to MainActivity
                                     if (task.isSuccessful()) {
                                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -150,27 +181,41 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            Toast.makeText(RegisterActivity.this, "Anonymous authentication did not work", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Authentication did not work.", Toast.LENGTH_SHORT).show();
                         }
 
+                        // remover loading animation
                         finishLoading();
                     }
                 });
     }
 
+    /**
+     * Display loading animation
+     */
     private void startLoading() {
-        loading_page.setVisibility(View.VISIBLE);
 
-        RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        // build animation
+        RotateAnimation rotate = new RotateAnimation(0, 360,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(1000);
         rotate.setRepeatCount(Animation.INFINITE);
         rotate.setInterpolator(new LinearInterpolator());
 
-        ImageView loadingSpade = findViewById(R.id.loading_spade);
-        loadingSpade.startAnimation(rotate);
+        // set animation to image and display
+        loading_spade.startAnimation(rotate);
+        loading_page.setVisibility(View.VISIBLE);
+
     }
 
+    /**
+     * Remove loading animation
+     */
     private void finishLoading() {
+
+        // hide and clear animation
         loading_page.setVisibility(View.GONE);
+        loading_spade.clearAnimation();
+
     }
 }

@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -23,18 +24,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
- *
+ * Activity to allow existing users to login to the application
  */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editText_login_email;
     private EditText editText_login_password;
     private LinearLayout loading_page;
+    private ImageView loading_spade;
 
     private FirebaseAuth firebaseAuth;
 
     /**
-     *
+     * {@inheritDoc}
      * @param savedInstanceState
      */
     @Override
@@ -45,12 +47,15 @@ public class LoginActivity extends AppCompatActivity {
         // setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Login");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         // get layout elements
         editText_login_email = findViewById(R.id.editText_login_email);
         editText_login_password = findViewById(R.id.editText_login_password);
+        loading_spade = findViewById(R.id.loading_spade);
         loading_page = findViewById(R.id.loading_page);
         Button btn_login_cred = findViewById(R.id.btn_login_cred);
         Button btn_login_anon = findViewById(R.id.btn_login_anon);
@@ -99,6 +104,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
+     * Function is overwritten to give the same animation as using the device 'Back' command
+     * {@inheritDoc}
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        onBackPressed();
+        return true;
+    }
+
+    /**
      *
      * @param email user wishes to login with
      * @param password user wishes to login with
@@ -126,19 +145,32 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Display loading animation
+     */
     private void startLoading() {
-        loading_page.setVisibility(View.VISIBLE);
 
-        RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        // build animation
+        RotateAnimation rotate = new RotateAnimation(0, 360,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(1000);
         rotate.setRepeatCount(Animation.INFINITE);
         rotate.setInterpolator(new LinearInterpolator());
 
-        ImageView loadingSpade = findViewById(R.id.loading_spade);
-        loadingSpade.startAnimation(rotate);
+        // set animation to image and display
+        loading_spade.startAnimation(rotate);
+        loading_page.setVisibility(View.VISIBLE);
+
     }
 
+    /**
+     * Remove loading animation
+     */
     private void finishLoading() {
+
+        // hide and clear animation
         loading_page.setVisibility(View.GONE);
+        loading_spade.clearAnimation();
+
     }
 }

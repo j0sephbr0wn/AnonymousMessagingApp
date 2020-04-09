@@ -21,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
         // setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
+        }
     }
 
     @Override

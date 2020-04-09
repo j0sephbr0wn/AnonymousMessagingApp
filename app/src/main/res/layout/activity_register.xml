@@ -55,15 +55,6 @@
             android:hint="Display name"
             android:inputType="textPersonName" />
 
-        <!--
-        <Spinner
-            android:id="@+id/spinner_business_unit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:theme="@style/SpinnerTheme"/>
-            -->
-
         <Button
             android:id="@+id/btn_reg_cred"
             android:layout_width="match_parent"
@@ -79,7 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/ubuntu"
-            android:text="or" />
+            android:text="or"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btn_reg_anon"
@@ -89,6 +81,18 @@
             android:fontFamily="@font/ubuntu"
             android:text="register anonymously"
             android:textColor="@color/colorGray" />
+
+        <TextView
+            android:id="@+id/textView_reg_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_info_blue_24dp"
+            android:drawableLeft="@drawable/ic_info_blue_24dp"
+            android:drawablePadding="4dp"
+            android:fontFamily="@font/ubuntu"
+            android:gravity="center"
+            android:text="@string/reg_info"
+            android:textColor="@color/colorCapgeminiBlue" />
 
     </LinearLayout>
 

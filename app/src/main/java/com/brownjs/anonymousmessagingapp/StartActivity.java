@@ -35,7 +35,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * {@inheritDoc}
      * @param savedInstanceState
      */
     @Override
