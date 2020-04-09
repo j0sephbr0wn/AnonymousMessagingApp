@@ -29,7 +29,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/edtxt_register_email"
+            android:id="@+id/editText_reg_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -38,7 +38,7 @@
             android:inputType="textEmailAddress" />
 
         <EditText
-            android:id="@+id/edtxt_register_password"
+            android:id="@+id/editText_reg_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -47,7 +47,7 @@
             android:inputType="textPassword" />
 
         <EditText
-            android:id="@+id/edtxt_register_name"
+            android:id="@+id/editText_reg_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -55,8 +55,17 @@
             android:hint="Display name"
             android:inputType="textPersonName" />
 
+        <!--
+        <Spinner
+            android:id="@+id/spinner_business_unit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:theme="@style/SpinnerTheme"/>
+            -->
+
         <Button
-            android:id="@+id/btn_login_cred"
+            android:id="@+id/btn_reg_cred"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -73,7 +82,7 @@
             android:text="or" />
 
         <Button
-            android:id="@+id/btn_login_anon"
+            android:id="@+id/btn_reg_anon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorCapgeminiBlue"
@@ -82,5 +91,9 @@
             android:textColor="@color/colorGray" />
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/loading_page"
+        layout="@layout/loading_page" />
 
 </RelativeLayout>

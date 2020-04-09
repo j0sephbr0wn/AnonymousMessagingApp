@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90000000"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:visibility="gone">
+
+    <ImageView
+        android:id="@+id/loading_spade"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/spade" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loading_spade"
+        android:fontFamily="@font/ubuntu"
+        android:gravity="center"
+        android:text="Loading..."
+        android:textColor="@color/colorGray"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
