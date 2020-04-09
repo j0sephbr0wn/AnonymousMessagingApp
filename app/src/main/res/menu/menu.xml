@@ -6,12 +6,10 @@
         android:id="@+id/profile"
         android:title="Profile"
         app:showAsAction="never" />
-    <!--
     <item
         android:id="@+id/admin"
         android:title="Administration"
         app:showAsAction="never" />
-        -->
     <item
         android:id="@+id/logout"
         android:title="Logout"
