@@ -135,7 +135,7 @@ public class MainActivity extends MyAppActivity {
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(MainActivity.this, StartActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 return true;
 
             case R.id.profile:
