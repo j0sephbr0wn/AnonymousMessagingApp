@@ -20,7 +20,9 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_main"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/ToolbarTheme"
+                app:popupTheme="@style/ToolbarMenuTheme">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_image"
@@ -43,9 +45,10 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:tabIndicatorColor="@color/colorTechRed"
                 app:tabSelectedTextColor="@color/colorGray"
-                app:tabTextColor="@color/colorGray"
-                app:tabTextAppearance="@style/TabLayoutTextFont"/>
+                app:tabTextAppearance="@style/TabLayoutTextFont"
+                app:tabTextColor="@color/colorGray" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -56,6 +59,16 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_new_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_gray_24dp" />
 
     <include
         android:id="@+id/loading_page"

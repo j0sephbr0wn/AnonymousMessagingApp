@@ -1,7 +1,5 @@
 package com.brownjs.anonymousmessagingapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
  * First screen user sees when they open the app. Given them the option of logging in or registering
  * as a new user, with a email and password (for Champions) or anonymously.
  */
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends MyAppActivity {
 
     /**
      *
@@ -28,6 +26,7 @@ public class StartActivity extends AppCompatActivity {
 
         // if the user is not null, they are already logged in
         if (firebaseUser != null) {
+
             Intent intent = new Intent(StartActivity.this, MainActivity.class);
             startActivity(intent);
             finish();

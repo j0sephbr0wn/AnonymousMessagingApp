@@ -8,15 +8,22 @@
         <item name="colorAccent">@color/colorTechRed</item>
     </style>
 
+    <!-- toolbar theme -->
+    <style name="ToolbarTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:textColorPrimary">@color/colorGray</item>
+        <item name="android:textColorSecondary">@color/colorGray</item>
+        <item name="android:fontFamily">@font/ubuntu</item>
+    </style>
+
     <!-- toolbar popup menu theme -->
-    <style name="ToolbarMenuStyle" parent="Theme.AppCompat.Light">
-        <item name="android:background">@color/colorGray</item>
+    <style name="ToolbarMenuTheme" parent="Theme.AppCompat.Light">
+
     </style>
 
     <!-- tab layout text style changes -->
     <style name="TabLayoutTextFont" parent="@android:style/TextAppearance.Widget.TabWidget">
-        <item name="fontFamily">@font/ubuntu</item>
         <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/ubuntu</item>
     </style>
 
 </resources>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorCapgeminiBlue"
-    android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
-    app:popupTheme="@style/ToolbarMenuStyle">
+    android:theme="@style/ToolbarTheme"
+    app:popupTheme="@style/ToolbarMenuTheme">
 
 </androidx.appcompat.widget.Toolbar>
