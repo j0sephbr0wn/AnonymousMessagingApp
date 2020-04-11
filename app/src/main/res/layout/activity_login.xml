@@ -16,7 +16,11 @@
         android:layout_below="@+id/toolbar"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:paddingStart="32dp"
+        android:paddingLeft="32dp"
+        android:paddingEnd="32dp"
+        android:paddingRight="32dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -52,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/colorCapgeminiBlue"
+            android:background="@drawable/button_rounded_blue"
             android:fontFamily="@font/ubuntu"
             android:text="login with credentials"
             android:textColor="@color/colorGray" />
@@ -68,7 +72,7 @@
             android:id="@+id/btn_login_anon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorCapgeminiBlue"
+            android:background="@drawable/button_rounded_blue"
             android:fontFamily="@font/ubuntu"
             android:text="login anonymously"
             android:textColor="@color/colorGray" />

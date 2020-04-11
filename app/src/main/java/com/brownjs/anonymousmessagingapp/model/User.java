@@ -1,5 +1,8 @@
 package com.brownjs.anonymousmessagingapp.model;
 
+/**
+ * Class to hold the User document
+ */
 public class User {
 
     private String Uid;
@@ -10,6 +13,16 @@ public class User {
     private boolean champion;
     private String status;
 
+    /**
+     *
+     * @param uid user id
+     * @param email sign-in email
+     * @param username chosen display name
+     * @param imageURL profile image
+     * @param description user description
+     * @param champion true if user is a Mental Health Champion
+     * @param status online/offline
+     */
     public User(String uid, String email, String username, String imageURL, String description, boolean champion, String status) {
         Uid = uid;
         this.email = email;

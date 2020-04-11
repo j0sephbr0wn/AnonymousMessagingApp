@@ -8,9 +8,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
-        android:padding="8dp">
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:paddingStart="32dp"
+        android:paddingLeft="32dp"
+        android:paddingEnd="32dp"
+        android:paddingRight="32dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -27,17 +31,17 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorCapgeminiBlue"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/button_rounded_blue"
             android:fontFamily="@font/ubuntu"
             android:text="login"
-            android:textColor="@color/colorGray"
-            android:layout_marginBottom="8dp"/>
+            android:textColor="@color/colorGray" />
 
         <Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorCapgeminiBlue"
+            android:background="@drawable/button_rounded_blue"
             android:fontFamily="@font/ubuntu"
             android:text="register"
             android:textColor="@color/colorGray" />

@@ -35,8 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends MyAppActivity {
 
-    FirebaseUser firebaseUser;
-    DatabaseReference userReference;
+    private DatabaseReference userReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +95,7 @@ public class MainActivity extends MyAppActivity {
         });
 
         // get Firebase current user
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
         // show loading animation while loading data

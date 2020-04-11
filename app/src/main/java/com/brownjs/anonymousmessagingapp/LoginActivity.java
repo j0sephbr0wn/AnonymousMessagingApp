@@ -109,10 +109,12 @@ public class LoginActivity extends MyAppActivity {
 
         startLoadingAnimation();
 
+        // login with credentials
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    // move to MainActivity, clearing the back stack
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -123,8 +125,6 @@ public class LoginActivity extends MyAppActivity {
 
                 endLoadingAnimation();
             }
-
-            //TODO remove loading text/animation
         });
     }
 }
