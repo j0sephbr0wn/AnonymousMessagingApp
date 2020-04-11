@@ -1,11 +1,18 @@
 package com.brownjs.anonymousmessagingapp;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,7 +68,7 @@ public class MainActivity extends MyAppActivity {
         fab_new_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NewMessageActivity.class));
+                showNewMessageDialog();
             }
         });
 
@@ -154,6 +161,40 @@ public class MainActivity extends MyAppActivity {
             }
         });
 
+    }
+
+    public void showNewMessageDialog() {
+
+        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.dialog_new_message);
+
+        ImageView close_new_message = dialog.findViewById(R.id.close_new_message);
+        final EditText editText_new_subject = dialog.findViewById(R.id.editText_new_subject);
+        Button btn_new_message = dialog.findViewById(R.id.btn_new_message);
+
+        close_new_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btn_new_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String subject = editText_new_subject.getText().toString();
+
+                if (subject.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please enter a subject.", Toast.LENGTH_SHORT).show();
+                } else {
+                    //todo pass subject to new activity
+                    startActivity(new Intent(MainActivity.this, MessageActivity.class));
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog.show();
     }
 
     @Override

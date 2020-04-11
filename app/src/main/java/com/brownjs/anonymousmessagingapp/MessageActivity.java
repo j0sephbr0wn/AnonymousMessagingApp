@@ -7,18 +7,19 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-public class NewMessageActivity extends AppCompatActivity {
+public class MessageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_message);
+        setContentView(R.layout.activity_message);
 
         // setup common_toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("New message");
+            getSupportActionBar().setSubtitle("You are anonymous");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
