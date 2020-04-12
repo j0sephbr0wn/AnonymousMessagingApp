@@ -68,7 +68,8 @@ public class MainActivity extends MyAppActivity {
         fab_new_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showNewMessageDialog();
+//                showNewMessageDialog();
+                startActivity(new Intent(MainActivity.this, MessageActivity.class));
             }
         });
 
@@ -109,7 +110,7 @@ public class MainActivity extends MyAppActivity {
         startLoadingAnimation();
 
         // get user information from document store
-        userReference.addValueEventListener(new ValueEventListener() {
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -163,39 +164,39 @@ public class MainActivity extends MyAppActivity {
 
     }
 
-    public void showNewMessageDialog() {
-
-        final Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setContentView(R.layout.dialog_new_message);
-
-        ImageView close_new_message = dialog.findViewById(R.id.close_new_message);
-        final EditText editText_new_subject = dialog.findViewById(R.id.editText_new_subject);
-        Button btn_new_message = dialog.findViewById(R.id.btn_new_message);
-
-        close_new_message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        btn_new_message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String subject = editText_new_subject.getText().toString();
-
-                if (subject.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Please enter a subject.", Toast.LENGTH_SHORT).show();
-                } else {
-                    //todo pass subject to new activity
-                    startActivity(new Intent(MainActivity.this, MessageActivity.class));
-                    dialog.dismiss();
-                }
-            }
-        });
-
-        dialog.show();
-    }
+//    public void showNewMessageDialog() {
+//
+//        final Dialog dialog = new Dialog(MainActivity.this);
+//        dialog.setContentView(R.layout.dialog_new_message);
+//
+//        ImageView close_new_message = dialog.findViewById(R.id.close_new_message);
+//        final EditText editText_new_subject = dialog.findViewById(R.id.editText_new_subject);
+//        Button btn_new_message = dialog.findViewById(R.id.btn_new_message);
+//
+//        close_new_message.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        btn_new_message.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String subject = editText_new_subject.getText().toString();
+//
+//                if (subject.isEmpty()) {
+//                    Toast.makeText(MainActivity.this, "Please enter a subject.", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    //todo pass subject to new activity
+//                    startActivity(new Intent(MainActivity.this, MessageActivity.class));
+//                    dialog.dismiss();
+//                }
+//            }
+//        });
+//
+//        dialog.show();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
