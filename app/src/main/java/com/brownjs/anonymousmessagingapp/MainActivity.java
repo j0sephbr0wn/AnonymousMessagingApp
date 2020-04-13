@@ -49,7 +49,7 @@ public class MainActivity extends MyAppActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // setup common_toolbar
+        // setup common toolbar
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -76,6 +76,7 @@ public class MainActivity extends MyAppActivity {
         // hide tabs until we know if it needs to be shown
         tabLayout.setVisibility(View.GONE);
 
+        // hide fab when not on the Chats tab
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -93,12 +94,12 @@ public class MainActivity extends MyAppActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                // do nothing
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                // do nothing
             }
         });
 
@@ -106,10 +107,10 @@ public class MainActivity extends MyAppActivity {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
-        // show loading animation while loading data
+        // show animation while loading data
         startLoadingAnimation();
 
-        // get user information from document store
+        // get user information from document store (only do this once)
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -188,7 +189,6 @@ public class MainActivity extends MyAppActivity {
 //                if (subject.isEmpty()) {
 //                    Toast.makeText(MainActivity.this, "Please enter a subject.", Toast.LENGTH_SHORT).show();
 //                } else {
-//                    //todo pass subject to new activity
 //                    startActivity(new Intent(MainActivity.this, MessageActivity.class));
 //                    dialog.dismiss();
 //                }
@@ -232,10 +232,12 @@ public class MainActivity extends MyAppActivity {
         switch (item.getItemId()) {
 
             case R.id.profile:
+                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
 
                 return true;
 
             case R.id.admin:
+                Toast.makeText(this, "Admin", Toast.LENGTH_SHORT).show();
 
                 return true;
 

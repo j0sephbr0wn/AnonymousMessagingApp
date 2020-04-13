@@ -41,31 +41,42 @@ public class MessageActivity extends AppCompatActivity {
         editText_new_subject = findViewById(R.id.editText_new_subject);
         Button btn_new_message = findViewById(R.id.btn_new_message);
 
+        // set on click listener
         btn_new_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // get subject
                 String subject = editText_new_subject.getText().toString();
 
+                // check if empty
                 if (subject.isEmpty()) {
                     Toast.makeText(MessageActivity.this, "Please enter a subject.", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                // if not empty create new chat
+                else {
+                    // change title of toolbar
                     if (getSupportActionBar() != null) {
                         getSupportActionBar().setTitle(subject);
                     }
 
+                    // hide the 'choose subject' layout
                     findViewById(R.id.layout_subject).setVisibility(View.GONE);
 
+                    // get the current Firebase user
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
+                    // build new document
                     HashMap<String, Object> newChat = new HashMap<>();
                     newChat.put("initiator", currentUser.getUid());
                     newChat.put("respondent", "none");
                     newChat.put("subject", subject);
 
+                    // put new chat in document store
                     DatabaseReference chatsReference = FirebaseDatabase.getInstance().getReference().child("Chats");
                     String chatsKey = chatsReference.push().getKey();
                     chatsReference.child(chatsKey).setValue(newChat);
 
+                    // add chat to user document
                     DatabaseReference chatListRef = FirebaseDatabase.getInstance().getReference("Users")
                             .child(currentUser.getUid())
                             .child("chatList");
