@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorVibrantBlue"
     tools:context=".fragments.ChampionsFragment">
 
     <TextView
@@ -12,7 +11,7 @@
         android:fontFamily="@font/ubuntu"
         android:gravity="center"
         android:text="Champions Only"
-        android:textColor="@color/colorGray"
+        android:textColor="@color/colorTechRed"
         android:textSize="50sp" />
 
 </FrameLayout>

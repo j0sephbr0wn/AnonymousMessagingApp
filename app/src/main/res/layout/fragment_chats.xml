@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorDeepPurple"
     tools:context=".fragments.ChatsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -17,7 +16,7 @@
         android:fontFamily="@font/ubuntu"
         android:gravity="center"
         android:text="Chats"
-        android:textColor="@color/colorGray"
+        android:textColor="@color/colorTechRed"
         android:textSize="50sp" />
 
 </FrameLayout>
