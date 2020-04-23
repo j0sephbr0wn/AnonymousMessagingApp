@@ -3,11 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorDeepPurple"
     tools:context=".fragments.ChatsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_chats"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="@font/ubuntu"
+        android:gravity="center"
+        android:text="Chats"
+        android:textColor="@color/colorGray"
+        android:textSize="50sp" />
 
 </FrameLayout>
