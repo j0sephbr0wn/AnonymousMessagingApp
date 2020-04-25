@@ -81,6 +81,7 @@
             android:id="@+id/btn_reg_anon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/button_rounded_blue"
             android:fontFamily="@font/ubuntu"
             android:text="register anonymously"
