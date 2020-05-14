@@ -1,8 +1,6 @@
 package com.brownjs.anonymousmessagingapp;
 
 import android.os.Build;
-import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -10,58 +8,47 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class MyAppActivity extends AppCompatActivity {
 
-//    private int onStartCount = 0;
+    private static final String DEFAULT_USERNAME = "Anonymous User";
+    private static final String DEFAULT_PASSWORD = "default_password";
+    private static final String PSEUDO_ID = "00" +
+            Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
+            Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
+            Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 +
+            Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
+            Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
+            Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
+            Build.USER.length() % 10 + "@anonymous.com";;
+
 
     public MyAppActivity() {
     }
 
+    /**
+     * @return a id ...
+     */
+    public String getDefaultUsername() {
 
-//    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        onStartCount = 1;
-//        if (savedInstanceState == null)
-//        {
-//            this.overridePendingTransition(R.anim.anim_slide_in_left,
-//                    R.anim.anim_slide_out_left);
-//        } else // already created so reverse animation
-//        {
-//            onStartCount = 2;
-//        }
-//    }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        if (onStartCount > 1) {
-//            this.overridePendingTransition(R.anim.anim_slide_in_right,
-//                    R.anim.anim_slide_out_right);
-//
-//        } else if (onStartCount == 1) {
-//            onStartCount++;
-//        }
-//    }
+        return DEFAULT_USERNAME;
+    }
 
     /**
      * @return a id ...
      */
-    public String buildPseudoId() {
-        // build a (nearly) unique id from the users hardware
-        return "00" +
-                Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
-                Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
-                Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 +
-                Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
-                Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
-                Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
-                Build.USER.length() % 10 + "@anonymous.com";
+    public String getDefaultPassword() {
+
+        return DEFAULT_PASSWORD;
+    }
+
+    /**
+     * @return a id ...
+     */
+    public String getPseudoId() {
+        // return a (nearly) unique id from the users hardware
+        return PSEUDO_ID;
     }
 
     /**

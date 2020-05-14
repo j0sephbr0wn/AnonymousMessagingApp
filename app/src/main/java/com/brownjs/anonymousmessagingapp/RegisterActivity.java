@@ -84,16 +84,7 @@ public class RegisterActivity extends MyAppActivity {
             @Override
             public void onClick(View v) {
 
-                // get pseudoId
-                String pseudoId = buildPseudoId();
-
-                // password doesn't matter, set it to a default string
-                String password = "default_password";
-
-                // user is anonymous
-                String username = "Anonymous User";
-
-                register(pseudoId, password, username);
+                register(getPseudoId(), getDefaultPassword(), getDefaultUsername());
             }
         });
     }

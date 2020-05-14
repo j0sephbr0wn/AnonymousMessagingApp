@@ -24,8 +24,6 @@ public class LoginActivity extends MyAppActivity {
     private EditText editText_login_email;
     private EditText editText_login_password;
 
-    private FirebaseAuth firebaseAuth;
-
     /**
      * {@inheritDoc}
      * @param savedInstanceState
@@ -48,9 +46,6 @@ public class LoginActivity extends MyAppActivity {
         editText_login_password = findViewById(R.id.editText_login_password);
         Button btn_login_cred = findViewById(R.id.btn_login_cred);
         Button btn_login_anon = findViewById(R.id.btn_login_anon);
-
-        // get Firebase auth instance
-        firebaseAuth = FirebaseAuth.getInstance();
 
         // set btn listeners
         btn_login_cred.setOnClickListener(new View.OnClickListener() {
@@ -75,13 +70,7 @@ public class LoginActivity extends MyAppActivity {
             @Override
             public void onClick(View v) {
 
-                // get pseudoId
-                String pseudoId = buildPseudoId();
-
-                // password doesn't matter, set it to a default string
-                String password = "default_password";
-
-                login(pseudoId, password);
+                login(getPseudoId(), getDefaultPassword());
             }
         });
     }
@@ -110,7 +99,8 @@ public class LoginActivity extends MyAppActivity {
         startLoadingAnimation();
 
         // login with credentials
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
