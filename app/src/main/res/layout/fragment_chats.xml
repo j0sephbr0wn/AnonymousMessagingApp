@@ -14,9 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fontFamily="@font/ubuntu"
-        android:gravity="center"
-        android:text="My Chats"
-        android:textColor="@color/colorTechRed"
-        android:textSize="50sp" />
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:text="No messages yet!"
+        android:textColor="@color/colorGray"
+        android:textSize="32sp"
+        android:textStyle="bold" />
 
 </FrameLayout>

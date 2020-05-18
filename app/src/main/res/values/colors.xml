@@ -11,4 +11,7 @@
 
     <color name="colorTransparentDark">#90000000</color>
 
+    <color name="colorOnline">#05df29</color>
+    <color name="colorOffline">#bfbfbf</color>
+
 </resources>
