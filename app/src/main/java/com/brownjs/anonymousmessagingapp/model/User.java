@@ -5,7 +5,7 @@ package com.brownjs.anonymousmessagingapp.model;
  */
 public class User {
 
-    private String Uid;
+    private String id;
     private String email;
     private String username;
     private String imageURL;
@@ -15,7 +15,7 @@ public class User {
 
     /**
      *
-     * @param uid user id
+     * @param id user id
      * @param email sign-in email
      * @param username chosen display name
      * @param imageURL profile image
@@ -23,8 +23,8 @@ public class User {
      * @param champion true if user is a Mental Health Champion
      * @param status online/offline
      */
-    public User(String uid, String email, String username, String imageURL, String description, boolean champion, String status) {
-        Uid = uid;
+    public User(String id, String email, String username, String imageURL, String description, boolean champion, String status) {
+        this.id = id;
         this.email = email;
         this.username = username;
         this.imageURL = imageURL;
@@ -36,12 +36,12 @@ public class User {
     public User() {
     }
 
-    public String getUid() {
-        return Uid;
+    public String getId() {
+        return id;
     }
 
-    public void setUid(String uid) {
-        Uid = uid;
+    public void setId(String uid) {
+        id = uid;
     }
 
     public String getEmail() {

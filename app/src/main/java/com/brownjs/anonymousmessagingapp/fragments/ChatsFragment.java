@@ -24,6 +24,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,8 +94,23 @@ public class ChatsFragment extends Fragment {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Chat chat = snapshot.getValue(Chat.class);
+
                     chatList.add(chat);
                 }
+
+                // sort on last message time
+//                for (Chat sortChat : chatList) {
+//                    int pos = chatList.indexOf(sortChat);
+//                    Date max = sortChat.getLatestMessageTime();
+//
+//                    for (int i = 0; i < pos; i++) {
+//                        Date comp = chatList.get(i).getLatestMessageTime();
+//
+//                        if (comp.after(max)) {
+//
+//                        }
+//                    }
+//                }
 
                 chatsAdapter.updateChatList(chatList);
             }
@@ -114,12 +130,21 @@ public class ChatsFragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userList.clear();
+                ArrayList<User> onlineList = new ArrayList<>();
+                ArrayList<User> offlineList = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-                    userList.add(user);
+                    if (user.getStatus().equals("online")) {
+                        onlineList.add(user);
+                    } else {
+                        offlineList.add(user);
+                    }
                 }
+
+                userList.clear();
+                userList.addAll(onlineList);
+                userList.addAll(offlineList);
 
                 chatsAdapter.updateUserList(userList);
             }
@@ -129,5 +154,11 @@ public class ChatsFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        chatsAdapter.refreshLists();
     }
 }
