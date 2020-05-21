@@ -232,16 +232,19 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             typeList.add(0);
         }
 
-        viewList.add(1);
-        typeList.add(1);
-
-        for (User user: userList) {
-            viewList.add(user);
-            typeList.add(2);
-        }
-
         // if the list of champions is empty we can infer this is a champion logged in
         isChampion = userList.isEmpty();
+
+        if (!isChampion) {
+
+            viewList.add(1);
+            typeList.add(1);
+
+            for (User user: userList) {
+                viewList.add(user);
+                typeList.add(2);
+            }
+        }
 
         notifyDataSetChanged();
     }
