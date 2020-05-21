@@ -68,7 +68,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_add_gray_24dp" />
+        android:src="@drawable/ic_message_gray_24dp" />
 
     <include
         android:id="@+id/loading_page"
