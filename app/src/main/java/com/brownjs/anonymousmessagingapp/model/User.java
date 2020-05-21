@@ -7,6 +7,7 @@ public class User {
 
     private String id;
     private String email;
+    private String phone;
     private String username;
     private String imageURL;
     private String description;
@@ -23,9 +24,10 @@ public class User {
      * @param champion true if user is a Mental Health Champion
      * @param status online/offline
      */
-    public User(String id, String email, String username, String imageURL, String description, boolean champion, String status) {
+    public User(String id, String email, String phone, String username, String imageURL, String description, boolean champion, String status) {
         this.id = id;
         this.email = email;
+        this.phone = phone;
         this.username = username;
         this.imageURL = imageURL;
         this.description = description;
@@ -50,6 +52,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getUsername() {

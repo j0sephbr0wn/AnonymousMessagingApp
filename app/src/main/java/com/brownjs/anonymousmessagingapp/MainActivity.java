@@ -103,7 +103,7 @@ public class MainActivity extends MyAppActivity {
         userReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
         // show animation while loading data
-        startLoadingAnimation();
+//        startLoadingAnimation();
 
         // get user information from document store (only do this once)
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -149,7 +149,7 @@ public class MainActivity extends MyAppActivity {
                 tabLayout.setupWithViewPager(viewPager);
 
                 // work done, end loading animation
-                endLoadingAnimation();
+//                endLoadingAnimation();
             }
 
             @Override
@@ -204,10 +204,13 @@ public class MainActivity extends MyAppActivity {
                 // load current user in model class
                 User currentUser = dataSnapshot.getValue(User.class);
 
-                // if user is not a champion hide the "Administration" option
+                // if user is not a champion hide unwanted options
+                assert currentUser != null;
                 if (!currentUser.isChampion()) {
                     MenuItem adminItem = menu.findItem(R.id.admin);
+                    MenuItem profileItem = menu.findItem(R.id.profile);
                     adminItem.setVisible(false);
+                    profileItem.setVisible(false);
                 }
             }
 
@@ -235,6 +238,11 @@ public class MainActivity extends MyAppActivity {
 
             case R.id.admin:
                 Toast.makeText(this, "Admin", Toast.LENGTH_SHORT).show();
+
+                return true;
+
+            case R.id.about:
+                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
 
                 return true;
 
