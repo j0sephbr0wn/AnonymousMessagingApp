@@ -1,6 +1,7 @@
 package com.brownjs.anonymousmessagingapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -13,6 +14,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.brownjs.anonymousmessagingapp.MainActivity;
+import com.brownjs.anonymousmessagingapp.MessageActivity;
+import com.brownjs.anonymousmessagingapp.ProfileActivity;
 import com.brownjs.anonymousmessagingapp.R;
 import com.brownjs.anonymousmessagingapp.model.Chat;
 import com.brownjs.anonymousmessagingapp.model.User;
@@ -76,17 +80,19 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             case 0:
                 Chat chat = (Chat) viewList.get(position);
 
+                int userHash;
                 boolean isLastRespondent;
-
                 if (isChampion) {
+                    userHash = chat.getInitiator().hashCode();
                     isLastRespondent = chat.getLatestMessager().equals(chat.getChampion());
                 } else {
+                    userHash = chat.getChampion().hashCode();
                     isLastRespondent = chat.getLatestMessager().equals(chat.getInitiator());
                 }
 
                 // decide which profile image to use
                 Glide.with(context)
-                        .load(getDefaultImage(chat.hashCode()))
+                        .load(getDefaultImage(userHash))
                         .into(holder.profileImage);
 
                 holder.mainText.setText(chat.getSubject());
@@ -114,7 +120,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "Chat click", Toast.LENGTH_SHORT).show();
+                        //TODO
                     }
                 });
 
@@ -122,7 +128,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
             // user view
             case 2:
-                User user = (User) viewList.get(position);
+                final User user = (User) viewList.get(position);
 
                 holder.mainText.setText(user.getUsername());
 
@@ -144,7 +150,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
                 if (user.getImageURL().equals("default")) {
                     Glide.with(context)
-                            .load(getDefaultImage(user.hashCode()))
+                            .load(getDefaultImage(user.getId().hashCode()))
                             .into(holder.profileImage);
                 } else {
                     Glide.with(context)
@@ -155,7 +161,9 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context, "Champion click", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        intent.putExtra("userId", user.getId());
+                        context.startActivity(intent);
                     }
                 });
 

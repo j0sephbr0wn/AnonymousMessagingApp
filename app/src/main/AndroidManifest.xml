@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_cap_alt"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ProfileActivity"></activity>
         <activity
             android:name=".MessageActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".RegisterActivity"
             android:parentActivityName=".StartActivity" />

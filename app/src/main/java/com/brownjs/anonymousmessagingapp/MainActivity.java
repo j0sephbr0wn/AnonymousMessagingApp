@@ -36,6 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends MyAppActivity {
 
+    private FirebaseUser firebaseUser;
     private DatabaseReference userReference;
 
     @Override
@@ -98,7 +99,7 @@ public class MainActivity extends MyAppActivity {
         });
 
         // get Firebase current user
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         userReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
         // show animation while loading data
@@ -226,7 +227,9 @@ public class MainActivity extends MyAppActivity {
         switch (item.getItemId()) {
 
             case R.id.profile:
-                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+                Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                profileIntent.putExtra("userId", firebaseUser.getUid());
+                startActivity(profileIntent);
 
                 return true;
 
@@ -240,9 +243,9 @@ public class MainActivity extends MyAppActivity {
                 FirebaseAuth.getInstance().signOut();
 
                 // navigate to StartActivity, clearing the back stack
-                Intent intent = new Intent(MainActivity.this, StartActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                Intent logoutIntent = new Intent(MainActivity.this, StartActivity.class);
+                logoutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(logoutIntent);
                 finish();
 
                 return true;
