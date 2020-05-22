@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -71,36 +72,10 @@ public class MainActivity extends MyAppActivity {
         // hide tabs until we know if it needs to be shown
         tabLayout.setVisibility(View.GONE);
 
-        // hide fab when not on the Chats tab
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-                switch (tab.getPosition()) {
-                    case 0:
-                        fab_new_message.show();
-                        break;
-
-                    case 1:
-                        fab_new_message.hide();
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                // do nothing
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                // do nothing
-            }
-        });
-
         // get Firebase current user
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        userReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        userReference = FirebaseDatabase.getInstance().getReference("Users")
+                .child(firebaseUser.getUid());
 
         // show animation while loading data
 //        startLoadingAnimation();
@@ -118,6 +93,7 @@ public class MainActivity extends MyAppActivity {
                 User currentUser = dataSnapshot.getValue(User.class);
 
                 // set username
+                assert currentUser != null;
                 textView_username.setText(currentUser.getUsername());
 
                 // set profile image
@@ -132,16 +108,17 @@ public class MainActivity extends MyAppActivity {
                             .into(profile_image);
                 }
 
-                // if user is not a champion show single fragment
-                if (!currentUser.isChampion()) {
-
-                    viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
-                }
                 // if user is champion show two fragments
-                else {
+                if (currentUser.isChampion()) {
+                    fab_new_message.hide();
                     viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
                     viewPagerAdapter.addFragment(new ChampionsFragment(), "Champions");
                     tabLayout.setVisibility(View.VISIBLE);
+                }
+                // if user is not a champion show single fragment
+                else {
+                    fab_new_message.show();
+                    viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
                 }
 
                 // set fragments in the activity
@@ -198,7 +175,7 @@ public class MainActivity extends MyAppActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
 
         // get user information from document store
-        userReference.addValueEventListener(new ValueEventListener() {
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // load current user in model class
@@ -260,6 +237,28 @@ public class MainActivity extends MyAppActivity {
         }
 
         return false;
+    }
+
+    private void status(String status) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
+                .child(firebaseUser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
     }
 
     /**

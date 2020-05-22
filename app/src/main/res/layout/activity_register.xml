@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/button_rounded_blue"
+            android:background="@drawable/background_rounded_blue"
             android:fontFamily="@font/ubuntu"
             android:text="register with credentials"
             android:textColor="@color/colorGray" />
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/button_rounded_blue"
+            android:background="@drawable/background_rounded_blue"
             android:fontFamily="@font/ubuntu"
             android:text="register anonymously"
             android:textColor="@color/colorGray" />

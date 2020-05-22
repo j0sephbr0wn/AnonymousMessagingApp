@@ -45,9 +45,14 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int IMAGE_REQUEST = 1;
 
     private CircleImageView imgProfileImage;
+    private CircleImageView imgOnline;
+    private CircleImageView imgOffline;
     private TextView txtDisplayName;
+    private TextView txtStatus;
     private TextView txtPhoneNumber;
     private TextView txtEmailAddress;
+    private TextView txtRole;
+    private TextView txtLocation;
     private TextView txtAbout;
     private Button btnNewMessage;
 
@@ -66,33 +71,40 @@ public class ProfileActivity extends AppCompatActivity {
 
         // get layout elements
         imgProfileImage = findViewById(R.id.profile_image);
+        imgOnline = findViewById(R.id.online);
+        imgOffline = findViewById(R.id.offline);
         txtDisplayName = findViewById(R.id.display_name);
+        txtStatus = findViewById(R.id.status);
         txtPhoneNumber = findViewById(R.id.phone_number);
         txtEmailAddress = findViewById(R.id.email_address);
+        txtRole = findViewById(R.id.role);
+        txtLocation = findViewById(R.id.location);
         txtAbout = findViewById(R.id.about);
         btnNewMessage = findViewById(R.id.btn_message);
 
-        imgProfileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setNewProfileImage();
-            }
-        });
-
         // get userId from intent and current userId from Firebase
-        String userId = getIntent().getStringExtra("userId");
+        final String userId = getIntent().getStringExtra("userId");
         String currentUserId = FirebaseAuth.getInstance().getUid();
 
         assert userId != null;
         final boolean isCurrentUser = userId.equals(currentUserId);
 
-        if (isCurrentUser) btnNewMessage.setVisibility(View.GONE);
+        if (isCurrentUser) {
+            imgProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setNewProfileImage();
+                }
+            });
+
+            btnNewMessage.setVisibility(View.GONE);
+        }
 
         Query query = FirebaseDatabase.getInstance().getReference("Users")
                 .orderByChild("id")
                 .equalTo(userId)
                 .limitToFirst(1);
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -102,7 +114,11 @@ public class ProfileActivity extends AppCompatActivity {
                     txtDisplayName.setText(user.getUsername());
                     txtPhoneNumber.setText(user.getPhone());
                     txtEmailAddress.setText(user.getEmail());
+                    txtRole.setText(user.getRole());
+                    txtLocation.setText(user.getLocation());
                     txtAbout.setText(user.getDescription());
+
+                    // set profile image
                     if (user.getImageURL().equals("default")) {
                         Glide.with(getApplicationContext())
                                 .load(R.drawable.spade_red)
@@ -113,10 +129,23 @@ public class ProfileActivity extends AppCompatActivity {
                                 .into(imgProfileImage);
                     }
 
-                    if (isCurrentUser) {
+                    // online or offline
+                    if (user.getStatus().equals("online")) {
+                        imgOnline.setVisibility(View.VISIBLE);
+                        imgOffline.setVisibility(View.GONE);
+                        String statusText = "Online now";
+                        txtStatus.setText(statusText);
+                    } else {
+                        imgOnline.setVisibility(View.GONE);
+                        imgOffline.setVisibility(View.VISIBLE);
+                        String statusText = "Offline";
+                        txtStatus.setText(statusText);
+                    }
+
+//                    if (isCurrentUser) {
 //                        txtDisplayName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_edit_blue_24dp, 0, 0, 0);
 //                        txtEmailAddress.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_edit_blue_24dp, 0, 0, 0);
-                    }
+//                    }
                 }
             }
 
@@ -228,5 +257,29 @@ public class ProfileActivity extends AppCompatActivity {
         ContentResolver contentResolver = this.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private void status(String status) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
+                .child(firebaseUser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
     }
 }

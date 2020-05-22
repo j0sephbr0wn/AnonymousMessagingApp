@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorVibrantBlue</item>
         <item name="colorPrimaryDark">@color/colorCapgeminiBlue</item>
         <item name="colorAccent">@color/colorTechRed</item>
+        <item name="colorButtonNormal">@color/colorCapgeminiBlue</item>
     </style>
 
     <!-- toolbar theme -->
@@ -24,16 +25,6 @@
     <style name="TabLayoutTextFont" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:textSize">18sp</item>
         <item name="fontFamily">@font/ubuntu</item>
-    </style>
-
-    <!-- button styles -->
-    <style name="ColouredButtonBlue" parent="Base.Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">@color/colorCapgeminiBlue</item>
-        <!--<item name="colorControlHighlight">@color/myRed</item>-->
-    </style>
-    <style name="ColouredButtonRed" parent="Base.Widget.AppCompat.Button.Colored">
-        <item name="colorButtonNormal">@color/colorTechRed</item>
-        <!--<item name="colorControlHighlight">@color/myRed</item>-->
     </style>
 
 </resources>

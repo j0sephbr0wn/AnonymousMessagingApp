@@ -9,6 +9,10 @@
     <color name="colorZestGreen">#95e616</color>
     <color name="colorGray">#ececec</color>
 
+    <!-- background colours -->
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorMetallicGray">#F3F3F3</color>
+
     <color name="colorTransparentDark">#90000000</color>
 
     <color name="colorOnline">#05df29</color>
