@@ -20,6 +20,8 @@ import com.brownjs.anonymousmessagingapp.fragments.ChampionsFragment;
 import com.brownjs.anonymousmessagingapp.fragments.ChatsFragment;
 import com.brownjs.anonymousmessagingapp.model.User;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,6 +122,9 @@ public class MainActivity extends MyAppActivity {
                 else {
                     fab_new_message.show();
                     viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
+
+                    //subscribe to AnonymousUsers topic to receive notifications
+                    subscribeToStatusChanges();
                 }
 
                 // set fragments in the activity
@@ -136,39 +142,6 @@ public class MainActivity extends MyAppActivity {
         });
 
     }
-
-//    public void showNewMessageDialog() {
-//
-//        final Dialog dialog = new Dialog(MainActivity.this);
-//        dialog.setContentView(R.layout.dialog_new_message);
-//
-//        ImageView close_new_message = dialog.findViewById(R.id.close_new_message);
-//        final EditText editText_new_subject = dialog.findViewById(R.id.editText_new_subject);
-//        Button btn_new_message = dialog.findViewById(R.id.btn_new_message);
-//
-//        close_new_message.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        btn_new_message.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String subject = editText_new_subject.getText().toString();
-//
-//                if (subject.isEmpty()) {
-//                    Toast.makeText(MainActivity.this, "Please enter a subject.", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    startActivity(new Intent(MainActivity.this, MessageActivity.class));
-//                    dialog.dismiss();
-//                }
-//            }
-//        });
-//
-//        dialog.show();
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -207,6 +180,7 @@ public class MainActivity extends MyAppActivity {
         switch (item.getItemId()) {
 
             case R.id.profile:
+
                 Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
                 profileIntent.putExtra("userId", firebaseUser.getUid());
                 startActivity(profileIntent);
@@ -224,6 +198,7 @@ public class MainActivity extends MyAppActivity {
                 return true;
 
             case R.id.logout:
+
                 // log user out of Firebase account
                 FirebaseAuth.getInstance().signOut();
 
@@ -252,13 +227,27 @@ public class MainActivity extends MyAppActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         status("online");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
         status("offline");
+    }
+
+    private void subscribeToStatusChanges() {
+        FirebaseMessaging.getInstance().subscribeToTopic("anonymousUsers")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//                            Toast.makeText(MainActivity.this, "Subscribe successful", Toast.LENGTH_SHORT).show();
+//                        }
+                    }
+                });
     }
 
     /**

@@ -21,7 +21,7 @@ exports.sendAdminNotification = functions.database.ref('/Users/{pushId}')
             }
           };
 
-          // send nofifications to topic subscribers
+          // send notifications to topic subscribers
           return admin.messaging()
             .sendToTopic("anonymousUsers",payload)
             .then(response => {
@@ -33,6 +33,7 @@ exports.sendAdminNotification = functions.database.ref('/Users/{pushId}')
         }
       }
 
-      return console.log('No change from Offline to Online, notification not sent');
+    // no notification sent
+    console.log('No change from Offline to Online, notification not sent');
+    return null;
 });
-
