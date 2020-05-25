@@ -32,19 +32,19 @@ exports.sendChampionOnlineNotification = functions.database.ref('/Users/{pushId}
 
             // send notifications to topic subscribers
             return admin.messaging()
-              .sendToTopic("anonymousUsers",payload)
+              .sendToTopic("anonymousUsers", payload)
               .then(response => {
                 return console.log('Notification sent successfully', response);
               })
               .catch(error => {
-                console.log('Notification sent failed:',error);
+                console.log('Notification send failed:', error);
               });
           }
         }
       }
 
     // no notification sent
-    console.log('Change does not meet requirements, notification not sent');
+    console.log('Change does not meet requirements, no notification sent');
     return null;
 });
 
