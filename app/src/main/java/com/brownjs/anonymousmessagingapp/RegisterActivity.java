@@ -26,9 +26,9 @@ import java.util.HashMap;
  */
 public class RegisterActivity extends MyAppActivity {
 
-    private EditText editText_reg_email;
-    private EditText editText_reg_password;
-    private EditText editText_reg_username;
+    private EditText txtRegEmail;
+    private EditText txtRegPassword;
+    private EditText txtRegUsername;
 
     /**
      * {@inheritDoc}
@@ -49,19 +49,19 @@ public class RegisterActivity extends MyAppActivity {
         }
 
         // get layout elements
-        editText_reg_email = findViewById(R.id.editText_reg_email);
-        editText_reg_password = findViewById(R.id.editText_reg_password);
-        editText_reg_username = findViewById(R.id.editText_reg_username);
-        Button btn_reg_cred = findViewById(R.id.btn_reg_cred);
-        Button btn_reg_anon = findViewById(R.id.btn_reg_anon);
+        txtRegEmail = findViewById(R.id.editText_reg_email);
+        txtRegPassword = findViewById(R.id.editText_reg_password);
+        txtRegUsername = findViewById(R.id.editText_reg_username);
+        Button btnRegCred = findViewById(R.id.btn_reg_cred);
+        Button btnRegNnon = findViewById(R.id.btn_reg_anon);
 
         // set btn listeners
-        btn_reg_cred.setOnClickListener(new View.OnClickListener() {
+        btnRegCred.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = editText_reg_email.getText().toString();
-                String password = editText_reg_password.getText().toString();
-                String username = editText_reg_username.getText().toString();
+                String email = txtRegEmail.getText().toString();
+                String password = txtRegPassword.getText().toString();
+                String username = txtRegUsername.getText().toString();
 
                 // check if all fields are filled it
                 if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
@@ -72,7 +72,7 @@ public class RegisterActivity extends MyAppActivity {
                     Toast.makeText(RegisterActivity.this, "Password must be at least 6 characters.", Toast.LENGTH_SHORT).show();
                 }
                 // check email is Capgemini email address
-                else if (!email.endsWith("@capgemini.com")) {
+                else if (!email.endsWith(getChampionEmailSuffix())) {
                     Toast.makeText(RegisterActivity.this, "Email must be a Capgemini address.", Toast.LENGTH_SHORT).show();
                 } else {
                     register(email, password, username);
@@ -80,7 +80,7 @@ public class RegisterActivity extends MyAppActivity {
             }
         });
 
-        btn_reg_anon.setOnClickListener(new View.OnClickListener() {
+        btnRegNnon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -132,15 +132,26 @@ public class RegisterActivity extends MyAppActivity {
                             // get reference to the User document
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
-                            // build document
+                            // is the new user a champion?
+                            boolean isChampion = email.endsWith(getChampionEmailSuffix());
+
                             HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("id", userId);
-                            hashMap.put("email", email);
-                            hashMap.put("username", username);
-                            hashMap.put("imageURL", "default");
-                            hashMap.put("description", "No description set");
-                            hashMap.put("champion", email.endsWith("@capgemini.com"));
-                            hashMap.put("status", "offline");
+                            if (isChampion) {
+                                // build document
+                                hashMap.put("id", userId);
+                                hashMap.put("email", email);
+                                hashMap.put("username", username);
+                                hashMap.put("imageURL", "default");
+                                hashMap.put("description", "No description set");
+                                hashMap.put("champion", true);
+                                hashMap.put("phone", "default");
+                                hashMap.put("role", "default");
+                                hashMap.put("location", "default");
+                            } else {
+                                // build document
+                                hashMap.put("id", userId);
+                                hashMap.put("champion", false);
+                            }
 
                             // put document in table and
                             reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {

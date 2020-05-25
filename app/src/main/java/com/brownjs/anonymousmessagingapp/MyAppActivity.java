@@ -8,7 +8,21 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.brownjs.anonymousmessagingapp.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Locale;
 
 public abstract class MyAppActivity extends AppCompatActivity {
 
@@ -21,7 +35,9 @@ public abstract class MyAppActivity extends AppCompatActivity {
             Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
             Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
             Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
-            Build.USER.length() % 10 + "@anonymous.com";;
+            Build.USER.length() % 10 + "@anonymous.com";
+
+    private static final String CHAMPION_EMAIL_SUFFIX = "@capgemini.com";
 
 
     public MyAppActivity() {
@@ -30,7 +46,7 @@ public abstract class MyAppActivity extends AppCompatActivity {
     /**
      * @return a id ...
      */
-    public String getDefaultUsername() {
+    String getDefaultUsername() {
 
         return DEFAULT_USERNAME;
     }
@@ -38,7 +54,7 @@ public abstract class MyAppActivity extends AppCompatActivity {
     /**
      * @return a id ...
      */
-    public String getDefaultPassword() {
+    String getDefaultPassword() {
 
         return DEFAULT_PASSWORD;
     }
@@ -46,15 +62,19 @@ public abstract class MyAppActivity extends AppCompatActivity {
     /**
      * @return a id ...
      */
-    public String getPseudoId() {
+    String getPseudoId() {
         // return a (nearly) unique id from the users hardware
         return PSEUDO_ID;
+    }
+
+    String getChampionEmailSuffix() {
+        return CHAMPION_EMAIL_SUFFIX;
     }
 
     /**
      * Display loading animation
      */
-    public void startLoadingAnimation() {
+    void startLoadingAnimation() {
 
         ImageView animationObject = findViewById(R.id.loading_spade);
         LinearLayout layout = findViewById(R.id.loading_page);
@@ -75,7 +95,7 @@ public abstract class MyAppActivity extends AppCompatActivity {
     /**
      * Remove loading animation
      */
-    public void endLoadingAnimation() {
+    void endLoadingAnimation() {
 
         ImageView animationObject = findViewById(R.id.loading_spade);
         LinearLayout layout = findViewById(R.id.loading_page);
@@ -84,5 +104,27 @@ public abstract class MyAppActivity extends AppCompatActivity {
         layout.setVisibility(View.GONE);
         animationObject.clearAnimation();
 
+    }
+
+    void status(final String status) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        String userEmail = firebaseUser.getEmail();
+        assert userEmail != null;
+        boolean isChampion = userEmail.endsWith(CHAMPION_EMAIL_SUFFIX);
+
+        if (isChampion) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
+            String currentDate = sdf.format(System.currentTimeMillis());
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
+                    .child(firebaseUser.getUid());
+
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("status", status);
+            hashMap.put("status_change_time", currentDate);
+
+            reference.updateChildren(hashMap);
+        }
     }
 }

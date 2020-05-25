@@ -21,8 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class LoginActivity extends MyAppActivity {
 
-    private EditText editText_login_email;
-    private EditText editText_login_password;
+    private EditText txtLoginEmail;
+    private EditText txtLoginPassword;
 
     /**
      * {@inheritDoc}
@@ -42,18 +42,18 @@ public class LoginActivity extends MyAppActivity {
         }
 
         // get layout elements
-        editText_login_email = findViewById(R.id.editText_login_email);
-        editText_login_password = findViewById(R.id.editText_login_password);
-        Button btn_login_cred = findViewById(R.id.btn_login_cred);
-        Button btn_login_anon = findViewById(R.id.btn_login_anon);
+        txtLoginEmail = findViewById(R.id.editText_login_email);
+        txtLoginPassword = findViewById(R.id.editText_login_password);
+        Button btnLoginCred = findViewById(R.id.btn_login_cred);
+        Button btnLoginAnon = findViewById(R.id.btn_login_anon);
 
         // set btn listeners
-        btn_login_cred.setOnClickListener(new View.OnClickListener() {
+        btnLoginCred.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // read the user input
-                String email = editText_login_email.getText().toString();
-                String password = editText_login_password.getText().toString();
+                String email = txtLoginEmail.getText().toString();
+                String password = txtLoginPassword.getText().toString();
 
                 // check if both are filled in
                 if (email.isEmpty() || password.isEmpty()) {
@@ -66,7 +66,7 @@ public class LoginActivity extends MyAppActivity {
             }
         });
 
-        btn_login_anon.setOnClickListener(new View.OnClickListener() {
+        btnLoginAnon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

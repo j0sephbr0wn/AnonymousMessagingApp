@@ -40,7 +40,7 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends MyAppActivity {
 
     private static final int IMAGE_REQUEST = 1;
 
@@ -54,7 +54,6 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView txtRole;
     private TextView txtLocation;
     private TextView txtAbout;
-    private Button btnNewMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
         txtRole = findViewById(R.id.role);
         txtLocation = findViewById(R.id.location);
         txtAbout = findViewById(R.id.about);
-        btnNewMessage = findViewById(R.id.btn_message);
+        Button btnNewMessage = findViewById(R.id.btn_message);
 
         // get userId from intent and current userId from Firebase
         final String userId = getIntent().getStringExtra("userId");
@@ -239,7 +238,7 @@ public class ProfileActivity extends AppCompatActivity {
                     reference.updateChildren(map);
 
                 } else {
-//                    Toast.makeText(this, "Upload failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, "Upload unsuccessful", Toast.LENGTH_SHORT).show();
                 }
                 pd.dismiss();
             }
@@ -257,18 +256,6 @@ public class ProfileActivity extends AppCompatActivity {
         ContentResolver contentResolver = this.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
-
-    private void status(String status) {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
-                .child(firebaseUser.getUid());
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("status", status);
-
-        reference.updateChildren(hashMap);
     }
 
     @Override

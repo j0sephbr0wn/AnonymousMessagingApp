@@ -34,14 +34,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends MyAppActivity {
-
-    private FirebaseUser firebaseUser;
-    private DatabaseReference userReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +57,13 @@ public class MainActivity extends MyAppActivity {
         final ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // get layout elements for fab
-        final FloatingActionButton fab_new_message = findViewById(R.id.fab_new_message);
+        final FloatingActionButton fabNewMessage = findViewById(R.id.fab_new_message);
 
         // on click listeners for fab
-        fab_new_message.setOnClickListener(new View.OnClickListener() {
+        fabNewMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showNewMessageDialog();
+
                 startActivity(new Intent(MainActivity.this, MessageActivity.class));
             }
         });
@@ -76,51 +72,59 @@ public class MainActivity extends MyAppActivity {
         tabLayout.setVisibility(View.GONE);
 
         // get Firebase current user
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        userReference = FirebaseDatabase.getInstance().getReference("Users")
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
                 .child(firebaseUser.getUid());
 
         // show animation while loading data
 //        startLoadingAnimation();
 
         // get user information from document store (only do this once)
-        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 // get layout elements
-                CircleImageView profile_image = findViewById(R.id.profile_image);
-                TextView textView_username = findViewById(R.id.username);
+                CircleImageView imgProfile = findViewById(R.id.profile_image);
+                TextView txtUsername = findViewById(R.id.username);
 
                 // load current user in model class
                 User currentUser = dataSnapshot.getValue(User.class);
-
-                // set username
                 assert currentUser != null;
-                textView_username.setText(currentUser.getUsername());
+                String userEmail = firebaseUser.getEmail();
+                assert userEmail != null;
 
-                // set profile image
-                // use default if image not set
-                if (currentUser.getImageURL().equals("default")) {
-                    profile_image.setImageResource(R.drawable.spade_red);
-                }
-                // load image if set
-                else {
-                    Glide.with(getApplicationContext())
-                            .load(currentUser.getImageURL())
-                            .into(profile_image);
-                }
+                // user is a champion
+                if (userEmail.endsWith(getChampionEmailSuffix())) {
+                    // set username
+                    txtUsername.setText(currentUser.getUsername());
 
-                // if user is champion show two fragments
-                if (currentUser.isChampion()) {
-                    fab_new_message.hide();
+                    // set profile image
+                    // use default if image not set
+                    if (currentUser.getImageURL().equals("default")) {
+                        imgProfile.setImageResource(R.drawable.spade_red);
+                    }
+                    // load image if set
+                    else {
+                        Glide.with(getApplicationContext())
+                                .load(currentUser.getImageURL())
+                                .into(imgProfile);
+                    }
+
+                    fabNewMessage.hide();
                     viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
                     viewPagerAdapter.addFragment(new ChampionsFragment(), "Champions");
                     tabLayout.setVisibility(View.VISIBLE);
                 }
-                // if user is not a champion show single fragment
+                // user is not a champion
                 else {
-                    fab_new_message.show();
+                    // set username
+                    txtUsername.setText(getDefaultUsername());
+                    // set profile image
+                    imgProfile.setImageResource(R.drawable.spade_red);
+
+                    fabNewMessage.show();
                     viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
 
                     //subscribe to AnonymousUsers topic to receive notifications
@@ -147,34 +151,27 @@ public class MainActivity extends MyAppActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
-        // get user information from document store
-        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // load current user in model class
-                User currentUser = dataSnapshot.getValue(User.class);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        String userEmail = firebaseUser.getEmail();
+        assert userEmail != null;
 
-                // if user is not a champion hide unwanted options
-                assert currentUser != null;
-                if (!currentUser.isChampion()) {
-                    MenuItem adminItem = menu.findItem(R.id.admin);
-                    MenuItem profileItem = menu.findItem(R.id.profile);
-                    adminItem.setVisible(false);
-                    profileItem.setVisible(false);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        // if user is not a champion hide unwanted options
+        if (!userEmail.endsWith(getChampionEmailSuffix())) {
+            MenuItem adminItem = menu.findItem(R.id.admin);
+            MenuItem profileItem = menu.findItem(R.id.profile);
+            adminItem.setVisible(false);
+            profileItem.setVisible(false);
+        }
 
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
 
         // handle different menu selections
         switch (item.getItemId()) {
@@ -214,16 +211,6 @@ public class MainActivity extends MyAppActivity {
         return false;
     }
 
-    private void status(String status) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
-                .child(firebaseUser.getUid());
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("status", status);
-
-        reference.updateChildren(hashMap);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -243,9 +230,9 @@ public class MainActivity extends MyAppActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//                            Toast.makeText(MainActivity.this, "Subscribe successful", Toast.LENGTH_SHORT).show();
-//                        }
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "There was an issue subscribing to notifications", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }
