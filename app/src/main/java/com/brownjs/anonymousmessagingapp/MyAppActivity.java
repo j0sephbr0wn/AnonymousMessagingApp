@@ -108,23 +108,40 @@ public abstract class MyAppActivity extends AppCompatActivity {
 
     void status(final String status) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        assert firebaseUser != null;
-        String userEmail = firebaseUser.getEmail();
-        assert userEmail != null;
-        boolean isChampion = userEmail.endsWith(CHAMPION_EMAIL_SUFFIX);
+        if (firebaseUser != null) {
+            String userEmail = firebaseUser.getEmail();
+            assert userEmail != null;
+            boolean isChampion = userEmail.endsWith(CHAMPION_EMAIL_SUFFIX);
 
-        if (isChampion) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
-            String currentDate = sdf.format(System.currentTimeMillis());
+            // update status if champion
+            if (isChampion) {
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("status", status);
 
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
-                    .child(firebaseUser.getUid());
+                if (status.equals("online")) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
+                    String currentDate = sdf.format(System.currentTimeMillis());
+                    hashMap.put("status_online_time", currentDate);
+                }
 
-            HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("status", status);
-            hashMap.put("status_change_time", currentDate);
-
-            reference.updateChildren(hashMap);
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
+                        .child(firebaseUser.getUid());
+                reference.updateChildren(hashMap);
+            }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        status("offline");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        status("online");
     }
 }

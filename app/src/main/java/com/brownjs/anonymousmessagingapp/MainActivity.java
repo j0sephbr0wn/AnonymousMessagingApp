@@ -112,6 +112,7 @@ public class MainActivity extends MyAppActivity {
                                 .into(imgProfile);
                     }
 
+                    // set champion specific ui elements
                     fabNewMessage.hide();
                     viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
                     viewPagerAdapter.addFragment(new ChampionsFragment(), "Champions");
@@ -124,6 +125,7 @@ public class MainActivity extends MyAppActivity {
                     // set profile image
                     imgProfile.setImageResource(R.drawable.spade_red);
 
+                    // set anon user ui specific elements
                     fabNewMessage.show();
                     viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
 
@@ -196,6 +198,8 @@ public class MainActivity extends MyAppActivity {
 
             case R.id.logout:
 
+                status("offline");
+
                 // log user out of Firebase account
                 FirebaseAuth.getInstance().signOut();
 
@@ -209,20 +213,6 @@ public class MainActivity extends MyAppActivity {
         }
 
         return false;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        status("online");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        status("offline");
     }
 
     private void subscribeToStatusChanges() {
