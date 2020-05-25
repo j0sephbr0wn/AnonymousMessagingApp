@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorCapgeminiBlue"
     tools:context=".LoginActivity">
 
     <include
@@ -25,12 +25,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/ubuntu"
             android:gravity="center"
             android:text="Login"
-            android:textColor="@color/colorTechRed"
-            android:textSize="32sp"
+            android:textColor="@color/colorGray"
+            android:textSize="34sp"
             android:textStyle="bold" />
 
         <EditText
@@ -38,44 +38,55 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:autofillHints="email"
             android:fontFamily="@font/ubuntu"
             android:hint="Email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
 
         <EditText
             android:id="@+id/editText_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="15dp"
+            android:autofillHints="password"
             android:fontFamily="@font/ubuntu"
             android:hint="Password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
 
         <Button
             android:id="@+id/btn_login_cred"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/background_rounded_blue"
+            android:background="@drawable/background_rounded_gray"
             android:fontFamily="@font/ubuntu"
             android:text="login with credentials"
-            android:textColor="@color/colorGray" />
+            android:textColor="@color/colorDeepPurple"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/ubuntu"
-            android:text="or" />
+            android:text="or"
+            android:textColor="@color/colorGray" />
 
         <Button
             android:id="@+id/btn_login_anon"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_rounded_blue"
+            android:background="@drawable/background_rounded_gray"
             android:fontFamily="@font/ubuntu"
             android:text="login anonymously"
-            android:textColor="@color/colorGray" />
+            android:textColor="@color/colorDeepPurple"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

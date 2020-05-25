@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorCapgeminiBlue"
     tools:context=".StartActivity">
 
     <LinearLayout
@@ -19,32 +20,36 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/ubuntu"
             android:gravity="center"
             android:text="Chat App"
-            android:textColor="@color/colorTechRed"
-            android:textSize="32sp"
+            android:textColor="@color/colorGray"
+            android:textSize="34sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/background_rounded_blue"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/background_rounded_gray"
             android:fontFamily="@font/ubuntu"
             android:text="login"
-            android:textColor="@color/colorGray" />
+            android:textColor="@color/colorDeepPurple"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_rounded_blue"
+            android:background="@drawable/background_rounded_gray"
             android:fontFamily="@font/ubuntu"
             android:text="register"
-            android:textColor="@color/colorGray" />
+            android:textColor="@color/colorDeepPurple"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ public class RegisterActivity extends MyAppActivity {
     private EditText txtRegEmail;
     private EditText txtRegPassword;
     private EditText txtRegUsername;
+    private TextView txtRegInfo;
 
     /**
      * {@inheritDoc}
@@ -52,6 +54,7 @@ public class RegisterActivity extends MyAppActivity {
         txtRegEmail = findViewById(R.id.editText_reg_email);
         txtRegPassword = findViewById(R.id.editText_reg_password);
         txtRegUsername = findViewById(R.id.editText_reg_username);
+        txtRegInfo = findViewById(R.id.textView_reg_info);
         Button btnRegCred = findViewById(R.id.btn_reg_cred);
         Button btnRegNnon = findViewById(R.id.btn_reg_anon);
 
@@ -85,6 +88,13 @@ public class RegisterActivity extends MyAppActivity {
             public void onClick(View v) {
 
                 register(getPseudoId(), getDefaultPassword(), getDefaultUsername());
+            }
+        });
+
+        txtRegInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(RegisterActivity.this, "Some info", Toast.LENGTH_SHORT).show();
             }
         });
     }

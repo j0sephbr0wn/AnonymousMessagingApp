@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorCapgeminiBlue"
     tools:context=".RegisterActivity">
 
     <include
@@ -24,12 +25,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/ubuntu"
             android:gravity="center"
             android:text="Register"
-            android:textColor="@color/colorTechRed"
-            android:textSize="32sp"
+            android:textColor="@color/colorGray"
+            android:textSize="34sp"
             android:textStyle="bold" />
 
         <EditText
@@ -39,7 +40,9 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/ubuntu"
             android:hint="Email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
 
         <EditText
             android:id="@+id/editText_reg_password"
@@ -48,26 +51,32 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/ubuntu"
             android:hint="Password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
 
         <EditText
             android:id="@+id/editText_reg_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="15dp"
             android:fontFamily="@font/ubuntu"
             android:hint="Display name"
-            android:inputType="textCapWords|textPersonName" />
+            android:inputType="textCapWords|textPersonName"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
 
         <Button
             android:id="@+id/btn_reg_cred"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/background_rounded_blue"
+            android:background="@drawable/background_rounded_gray"
             android:fontFamily="@font/ubuntu"
             android:text="register with credentials"
-            android:textColor="@color/colorGray" />
+            android:textColor="@color/colorDeepPurple"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,6 +84,7 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/ubuntu"
             android:text="or"
+            android:textColor="@color/colorGray"
             android:textSize="16sp" />
 
         <Button
@@ -82,21 +92,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/background_rounded_blue"
+            android:background="@drawable/background_rounded_gray"
             android:fontFamily="@font/ubuntu"
             android:text="register anonymously"
-            android:textColor="@color/colorGray" />
+            android:textColor="@color/colorDeepPurple"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView_reg_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_info_blue_24dp"
+            android:drawableStart="@drawable/ic_info_outline_gray_24dp"
             android:drawablePadding="4dp"
             android:fontFamily="@font/ubuntu"
             android:gravity="center"
             android:text="@string/reg_info"
-            android:textColor="@color/colorCapgeminiBlue" />
+            android:textColor="@color/colorGray" />
 
     </LinearLayout>
 
