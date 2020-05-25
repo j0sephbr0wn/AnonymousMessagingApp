@@ -22,12 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/profile_image"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="55dp"
-            android:layout_marginRight="55dp"
             android:layout_toEndOf="@id/profile_image"
-            android:layout_toRightOf="@id/profile_image"
             android:ellipsize="end"
             android:fontFamily="@font/ubuntu"
             android:maxLines="1"
@@ -56,12 +53,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/profile_image"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginEnd="55dp"
-            android:layout_marginRight="55dp"
             android:layout_marginBottom="5dp"
             android:layout_toEndOf="@id/profile_image"
-            android:layout_toRightOf="@id/profile_image"
             android:ellipsize="end"
             android:fontFamily="@font/ubuntu"
             android:maxLines="1"
@@ -73,10 +67,8 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginRight="30dp"
             android:src="@drawable/ic_chevron_right_blue_24dp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -84,10 +76,8 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginRight="30dp"
             android:background="@drawable/background_unread"
             android:visibility="visible" />
 
@@ -97,9 +87,7 @@
             android:layout_height="15dp"
             android:layout_alignBottom="@id/profile_image"
             android:layout_marginStart="-15dp"
-            android:layout_marginLeft="-15dp"
             android:layout_toEndOf="@id/profile_image"
-            android:layout_toRightOf="@id/profile_image"
             android:background="@drawable/background_online"
             android:visibility="visible" />
 
@@ -109,9 +97,7 @@
             android:layout_height="15dp"
             android:layout_alignBottom="@id/profile_image"
             android:layout_marginStart="-15dp"
-            android:layout_marginLeft="-15dp"
             android:layout_toEndOf="@id/profile_image"
-            android:layout_toRightOf="@id/profile_image"
             android:background="@drawable/background_offline"
             android:visibility="gone" />
 
@@ -123,9 +109,7 @@
         android:layout_height="1dp"
         android:layout_below="@+id/item"
         android:layout_marginStart="70dp"
-        android:layout_marginLeft="70dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
         android:background="@color/colorGray" />
 
 </RelativeLayout>

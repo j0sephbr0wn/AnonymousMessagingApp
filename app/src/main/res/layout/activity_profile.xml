@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
-    android:background="@color/colorMetallicGray">
+    android:background="@color/colorMetallicGray"
+    tools:context=".ProfileActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -39,10 +39,9 @@
                     android:layout_height="30dp"
                     android:layout_alignBottom="@id/profile_image"
                     android:layout_marginStart="-30dp"
-                    android:layout_marginLeft="-30dp"
                     android:layout_toEndOf="@id/profile_image"
-                    android:layout_toRightOf="@id/profile_image"
                     android:background="@drawable/background_online"
+                    android:padding="5dp"
                     android:visibility="visible" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -51,10 +50,9 @@
                     android:layout_height="30dp"
                     android:layout_alignBottom="@id/profile_image"
                     android:layout_marginStart="-30dp"
-                    android:layout_marginLeft="-30dp"
                     android:layout_toEndOf="@id/profile_image"
-                    android:layout_toRightOf="@id/profile_image"
                     android:background="@drawable/background_offline"
+                    android:padding="5dp"
                     android:visibility="gone" />
 
             </RelativeLayout>
@@ -94,7 +92,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/ubuntu"
@@ -137,7 +134,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/ubuntu"
@@ -180,7 +176,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/ubuntu"

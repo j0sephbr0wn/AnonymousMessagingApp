@@ -4,12 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -44,7 +48,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends MyAppActivity {
 
-    private static final int IMAGE_REQUEST = 1;
+    private static final int REQUEST_READ_EXTERNAL_PERMISSION = 11;
+    private static final int IMAGE_REQUEST = 22;
 
     private CircleImageView imgProfileImage;
     private CircleImageView imgOnline;
@@ -98,6 +103,8 @@ public class ProfileActivity extends MyAppActivity {
                 }
             });
 
+            imgOnline.setImageResource(R.drawable.ic_edit_blue_24dp);
+            imgOffline.setImageResource(R.drawable.ic_edit_blue_24dp);
             btnNewMessage.setVisibility(View.GONE);
         }
 
@@ -173,7 +180,21 @@ public class ProfileActivity extends MyAppActivity {
 
     // create intent for image request
     private void setNewProfileImage() {
-        Intent intent = new Intent();
+
+        // get permissions to read external
+        int readPermissions = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (readPermissions != PackageManager.PERMISSION_GRANTED) {
+            try {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_READ_EXTERNAL_PERMISSION);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
+        }
+
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, IMAGE_REQUEST);
