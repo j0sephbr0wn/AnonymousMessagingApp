@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
 // function to notify anonymous users when a champion comes online
+// can be simplified to only monitor status_online_time
 exports.sendChampionOnlineNotification = functions.database.ref('/Users/{pushId}')
     .onUpdate((change, context) => {
       console.log('Change to Users detected');

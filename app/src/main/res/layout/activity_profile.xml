@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/background_rounded_red"
+                style="@style/ButtonRed"
                 android:fontFamily="@font/ubuntu"
                 android:text="Message Now"
                 android:textColor="@color/colorGray" />

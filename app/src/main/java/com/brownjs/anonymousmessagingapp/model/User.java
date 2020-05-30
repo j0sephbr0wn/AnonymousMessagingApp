@@ -1,5 +1,10 @@
 package com.brownjs.anonymousmessagingapp.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Class to hold the User document
  */
@@ -15,6 +20,7 @@ public class User {
     private String description;
     private boolean champion;
     private String status;
+    private String status_online_time;
 
     /**
      *
@@ -27,7 +33,7 @@ public class User {
      * @param status online/offline
      */
     public User(String id, String email, String phone, String username, String imageURL,
-                String description, boolean champion, String status, String role, String location) {
+                String description, boolean champion, String status, String status_online_time, String role, String location) {
         this.id = id;
         this.email = email;
         this.phone = phone;
@@ -38,6 +44,7 @@ public class User {
         this.description = description;
         this.champion = champion;
         this.status = status;
+        this.status = status_online_time;
     }
 
     public User() {
@@ -121,5 +128,23 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getStatus_online_time() {
+        return status_online_time;
+    }
+
+    public Date getStatusOnlineTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
+        try {
+            return sdf.parse(status_online_time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Date(System.currentTimeMillis());
+    }
+
+    public void setStatus_online_time(String status_online_time) {
+        this.status_online_time = status_online_time;
     }
 }

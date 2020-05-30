@@ -3,19 +3,15 @@ package com.brownjs.anonymousmessagingapp.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.brownjs.anonymousmessagingapp.MainActivity;
-import com.brownjs.anonymousmessagingapp.MessageActivity;
 import com.brownjs.anonymousmessagingapp.ProfileActivity;
 import com.brownjs.anonymousmessagingapp.R;
 import com.brownjs.anonymousmessagingapp.model.Chat;
@@ -25,9 +21,6 @@ import com.bumptech.glide.Glide;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -93,29 +86,25 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                 // decide which profile image to use
                 Glide.with(context)
                         .load(getDefaultImage(userHash))
-                        .into(holder.profileImage);
+                        .into(holder.imgProfile);
 
-                holder.mainText.setText(chat.getSubject());
-//                holder.smallText.setText();
+                holder.txtMain.setText(chat.getSubject());
 
                 if (!chat.isRead() && !isLastRespondent) {
-//                    holder.mainText.setTypeface(holder.mainText.getTypeface(), Typeface.BOLD);
-                    holder.subText.setTypeface(holder.subText.getTypeface(), Typeface.BOLD);
+                    holder.txtSub.setTypeface(holder.txtSub.getTypeface(), Typeface.BOLD);
                     String subText = "New message " + p.format(chat.getLatestMessageTime());
-                    holder.subText.setText(subText);
-                    holder.unread.setVisibility(View.VISIBLE);
+                    holder.txtSub.setText(subText);
+                    holder.imgUnread.setVisibility(View.VISIBLE);
                 } else {
-//                    holder.mainText.setTypeface(holder.mainText.getTypeface(), Typeface.NORMAL);
-                    holder.subText.setTypeface(holder.mainText.getTypeface(), Typeface.NORMAL);
-                    String subText = "Last updated " + p.format(chat.getLatestMessageTime());
-                    holder.subText.setText(subText);
-                    holder.unread.setVisibility(View.GONE);
+                    holder.txtSub.setTypeface(holder.txtMain.getTypeface(), Typeface.NORMAL);
+                    String subText = "Last message " + p.format(chat.getLatestMessageTime());
+                    holder.txtSub.setText(subText);
+                    holder.imgUnread.setVisibility(View.GONE);
                 }
 
-//                holder.smallText.setVisibility(View.GONE);
-                holder.chevron.setVisibility(View.GONE);
-                holder.online.setVisibility(View.GONE);
-                holder.offline.setVisibility(View.GONE);
+                holder.imgChevron.setVisibility(View.GONE);
+                holder.imgOnline.setVisibility(View.GONE);
+                holder.imgOffline.setVisibility(View.GONE);
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -130,32 +119,31 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             case 2:
                 final User user = (User) viewList.get(position);
 
-                holder.mainText.setText(user.getUsername());
+                holder.txtMain.setText(user.getUsername());
 
-//                holder.smallText.setVisibility(View.GONE);
-                holder.unread.setVisibility(View.GONE);
-                holder.chevron.setVisibility(View.VISIBLE);
+                holder.imgUnread.setVisibility(View.GONE);
+                holder.imgChevron.setVisibility(View.VISIBLE);
 
                 if (user.getStatus().equals("online")) {
-                    holder.online.setVisibility(View.VISIBLE);
-                    holder.offline.setVisibility(View.GONE);
+                    holder.imgOnline.setVisibility(View.VISIBLE);
+                    holder.imgOffline.setVisibility(View.GONE);
                     String statusText = "Online now";
-                    holder.subText.setText(statusText);
+                    holder.txtSub.setText(statusText);
                 } else {
-                    holder.online.setVisibility(View.GONE);
-                    holder.offline.setVisibility(View.VISIBLE);
-                    String statusText = "Offline";
-                    holder.subText.setText(statusText);
+                    holder.imgOnline.setVisibility(View.GONE);
+                    holder.imgOffline.setVisibility(View.VISIBLE);
+                    String statusText = "Offline, last seen " + p.format(user.getStatusOnlineTime());
+                    holder.txtSub.setText(statusText);
                 }
 
                 if (user.getImageURL().equals("default")) {
                     Glide.with(context)
                             .load(getDefaultImage(user.getId().hashCode()))
-                            .into(holder.profileImage);
+                            .into(holder.imgProfile);
                 } else {
                     Glide.with(context)
                             .load(user.getImageURL())
-                            .into(holder.profileImage);
+                            .into(holder.imgProfile);
                 }
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -186,33 +174,31 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        CircleImageView profileImage;
+        CircleImageView imgProfile;
 
-        TextView mainText;
-        TextView subText;
-//        TextView smallText;
+        TextView txtMain;
+        TextView txtSub;
 
-        CircleImageView unread;
-        ImageView chevron;
+        CircleImageView imgUnread;
+        ImageView imgChevron;
 
-        CircleImageView online;
-        CircleImageView offline;
+        CircleImageView imgOnline;
+        CircleImageView imgOffline;
 
 
         private ViewHolder(@NonNull View itemView, int viewType) {
             super(itemView);
             if (viewType == 0 || viewType == 2) {
-                profileImage = itemView.findViewById(R.id.profile_image);
+                imgProfile = itemView.findViewById(R.id.profile_image);
 
-                mainText = itemView.findViewById(R.id.main_text);
-                subText = itemView.findViewById(R.id.sub_text);
-//                smallText = itemView.findViewById(R.id.small_text);
+                txtMain = itemView.findViewById(R.id.main_text);
+                txtSub = itemView.findViewById(R.id.sub_text);
 
-                unread = itemView.findViewById(R.id.unread);
-                chevron = itemView.findViewById(R.id.chevron);
+                imgUnread = itemView.findViewById(R.id.unread);
+                imgChevron = itemView.findViewById(R.id.chevron);
 
-                online = itemView.findViewById(R.id.online);
-                offline = itemView.findViewById(R.id.offline);
+                imgOnline = itemView.findViewById(R.id.online);
+                imgOffline = itemView.findViewById(R.id.offline);
             }
 
         }

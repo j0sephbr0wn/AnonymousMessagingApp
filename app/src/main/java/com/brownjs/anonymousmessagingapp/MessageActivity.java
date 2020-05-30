@@ -17,7 +17,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -36,6 +38,10 @@ public class MessageActivity extends AppCompatActivity {
             getSupportActionBar().setSubtitle("You are anonymous");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        // get userId from intent and current userId from Firebase
+        final String championId = getIntent().getStringExtra("userId");
+        assert championId != null;
 
         // get ui elements
         editText_new_subject = findViewById(R.id.editText_new_subject);
@@ -64,26 +70,40 @@ public class MessageActivity extends AppCompatActivity {
 
                     // get the current Firebase user
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                    assert currentUser != null;
+
+                    // date formatter
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
 
                     // build new document
                     HashMap<String, Object> newChat = new HashMap<>();
+                    newChat.put("champion", championId);
                     newChat.put("initiator", currentUser.getUid());
-                    newChat.put("respondent", "none");
+                    newChat.put("latest_message", "No messages yet");
+                    newChat.put("latest_message_time", sdf.format(System.currentTimeMillis()));
+                    newChat.put("latest_messager", currentUser.getUid());
+                    newChat.put("read", "false");
                     newChat.put("subject", subject);
 
                     // put new chat in document store
                     DatabaseReference chatsReference = FirebaseDatabase.getInstance().getReference().child("Chats");
                     String chatsKey = chatsReference.push().getKey();
+                    assert chatsKey != null;
                     chatsReference.child(chatsKey).setValue(newChat);
 
-                    // add chat to user document
-                    DatabaseReference chatListRef = FirebaseDatabase.getInstance().getReference("Users")
+                    // add chat to user documents
+                    DatabaseReference currentUserChatListRef = FirebaseDatabase.getInstance().getReference("Users")
                             .child(currentUser.getUid())
                             .child("chatList");
+                    DatabaseReference championChatListRef = FirebaseDatabase.getInstance().getReference("Users")
+                            .child(championId)
+                            .child("chatList");
+
                     HashMap<String, String> newChatListItem = new HashMap<>();
                     newChatListItem.put("id", chatsKey);
-                    chatListRef.push().setValue(newChatListItem);
 
+                    currentUserChatListRef.push().setValue(newChatListItem);
+                    championChatListRef.push().setValue(newChatListItem);
                 }
             }
         });

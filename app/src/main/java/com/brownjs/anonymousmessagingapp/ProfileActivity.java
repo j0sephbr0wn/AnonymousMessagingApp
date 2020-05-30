@@ -1,11 +1,5 @@
 package com.brownjs.anonymousmessagingapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -20,6 +14,11 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
 import com.brownjs.anonymousmessagingapp.model.User;
 import com.bumptech.glide.Glide;
@@ -40,9 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -106,6 +103,15 @@ public class ProfileActivity extends MyAppActivity {
             imgOnline.setImageResource(R.drawable.ic_edit_blue_24dp);
             imgOffline.setImageResource(R.drawable.ic_edit_blue_24dp);
             btnNewMessage.setVisibility(View.GONE);
+        } else {
+            btnNewMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ProfileActivity.this, MessageActivity.class);
+                    intent.putExtra("userId", userId);
+                    startActivity(intent);
+                }
+            });
         }
 
         Query query = FirebaseDatabase.getInstance().getReference("Users")

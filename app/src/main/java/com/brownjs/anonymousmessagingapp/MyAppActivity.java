@@ -8,17 +8,12 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.brownjs.anonymousmessagingapp.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -35,8 +30,9 @@ public abstract class MyAppActivity extends AppCompatActivity {
             Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
             Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
             Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
-            Build.USER.length() % 10 + "@anonymous.com";
+            Build.USER.length() % 10;
 
+    private static final String ANONYMOUS_EMAIL_SUFFIX = "@anonymous.com";
     private static final String CHAMPION_EMAIL_SUFFIX = "@capgemini.com";
 
 
@@ -64,7 +60,7 @@ public abstract class MyAppActivity extends AppCompatActivity {
      */
     String getPseudoId() {
         // return a (nearly) unique id from the users hardware
-        return PSEUDO_ID;
+        return PSEUDO_ID + ANONYMOUS_EMAIL_SUFFIX;
     }
 
     String getChampionEmailSuffix() {

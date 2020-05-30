@@ -27,4 +27,9 @@
         <item name="fontFamily">@font/ubuntu</item>
     </style>
 
+    <!-- red button theme -->
+    <style name="ButtonRed" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/background_rounded_red</item>
+    </style>
+
 </resources>
