@@ -110,6 +110,7 @@ public class SetupChatActivity extends AppCompatActivity {
                     Intent intent = new Intent(SetupChatActivity.this, MessageActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                     intent.putExtra("chatId", chatKey);
+                    intent.putExtra("subject", subject);
                     startActivity(intent);
                     finish();
                 }

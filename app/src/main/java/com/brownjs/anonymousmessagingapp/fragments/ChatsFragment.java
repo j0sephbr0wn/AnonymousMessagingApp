@@ -18,13 +18,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,8 +34,8 @@ public class ChatsFragment extends Fragment {
 
     private boolean isChampion;
 
-    private ArrayList<Chat> chatList = new ArrayList<>();;
-    private ArrayList<User> userList = new ArrayList<>();;
+    private ArrayList<Chat> chatList = new ArrayList<>();
+    private ArrayList<User> userList = new ArrayList<>();
 
     private ChatsAdapter chatsAdapter;
 
@@ -52,20 +50,22 @@ public class ChatsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chats, container, false);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
         assert firebaseUser != null;
-        isChampion = (firebaseUser.getEmail().endsWith("capgemini.com"));
+
+        String email = firebaseUser.getEmail();
+        assert email != null;
+        isChampion = (email.endsWith("capgemini.com"));
 
         getChatList();
         if (!isChampion) getUserList();
 
         // setup chats recyclerView
-        RecyclerView recyclerView_chats = view.findViewById(R.id.recyclerView_chats);
-        recyclerView_chats.setHasFixedSize(true);
-        recyclerView_chats.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerView recyclerViewChats = view.findViewById(R.id.recyclerView_chats);
+        recyclerViewChats.setHasFixedSize(true);
+        recyclerViewChats.setLayoutManager(new LinearLayoutManager(getContext()));
 
         chatsAdapter = new ChatsAdapter(getContext(), chatList, userList);
-        recyclerView_chats.setAdapter(chatsAdapter);
+        recyclerViewChats.setAdapter(chatsAdapter);
 
         return view;
     }
@@ -135,6 +135,7 @@ public class ChatsFragment extends Fragment {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
+                    assert user != null;
                     if (user.getStatus().equals("online")) {
                         onlineList.add(user);
                     } else {
