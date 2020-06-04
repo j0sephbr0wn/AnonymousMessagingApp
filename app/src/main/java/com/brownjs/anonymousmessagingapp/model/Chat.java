@@ -7,6 +7,7 @@ import java.util.Locale;
 
 public class Chat {
 
+    private String id;
     private String initiator;
     private String champion;
     private String champion_display_name;
@@ -16,8 +17,9 @@ public class Chat {
     private String latest_messager;
     private boolean read;
 
-    public Chat(String initiator, String champion, String champion_display_name, String subject,
+    public Chat(String id, String initiator, String champion, String champion_display_name, String subject,
                 String latest_message, String latest_message_time, String latest_messager, boolean read) {
+        this.id = id;
         this.initiator = initiator;
         this.champion = champion;
         this.champion_display_name = champion_display_name;
@@ -29,6 +31,14 @@ public class Chat {
     }
 
     public Chat() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getInitiator() {
@@ -113,8 +123,8 @@ public class Chat {
         return read;
     }
 
-    public void setRead(boolean unread) {
-        this.read = unread;
+    public void setRead(boolean read) {
+        this.read = read;
     }
 
     //    public String getUnread() {

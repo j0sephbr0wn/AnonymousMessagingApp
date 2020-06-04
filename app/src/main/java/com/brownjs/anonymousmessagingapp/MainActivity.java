@@ -64,7 +64,7 @@ public class MainActivity extends MyAppActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MainActivity.this, MessageActivity.class));
+                startActivity(new Intent(MainActivity.this, SetupChatActivity.class));
             }
         });
 

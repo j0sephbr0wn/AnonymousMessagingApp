@@ -1,5 +1,6 @@
 package com.brownjs.anonymousmessagingapp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.brownjs.anonymousmessagingapp.MessageActivity;
 import com.brownjs.anonymousmessagingapp.ProfileActivity;
 import com.brownjs.anonymousmessagingapp.R;
 import com.brownjs.anonymousmessagingapp.model.Chat;
@@ -71,7 +73,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         switch (viewType) {
             // chat view
             case 0:
-                Chat chat = (Chat) viewList.get(position);
+                final Chat chat = (Chat) viewList.get(position);
 
                 int userHash;
                 boolean isLastRespondent;
@@ -109,7 +111,9 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO
+                        Intent intent = new Intent(context, MessageActivity.class);
+                        intent.putExtra("chatId", chat.getId());
+                        context.startActivity(intent);
                     }
                 });
 
@@ -161,9 +165,12 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
     private int getDefaultImage(int uidHash) {
         switch (Math.abs(uidHash) % 3) {
-            case 0: return R.drawable.spade_green;
-            case 1: return R.drawable.spade_purple;
-            default: return R.drawable.spade_red;
+            case 0:
+                return R.drawable.spade_green;
+            case 1:
+                return R.drawable.spade_purple;
+            default:
+                return R.drawable.spade_red;
         }
     }
 
@@ -213,7 +220,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         viewList.clear();
         typeList.clear();
 
-        for (Chat chat: chatList) {
+        for (Chat chat : chatList) {
             viewList.add(chat);
             typeList.add(0);
         }
@@ -226,7 +233,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             viewList.add(1);
             typeList.add(1);
 
-            for (User user: userList) {
+            for (User user : userList) {
                 viewList.add(user);
                 typeList.add(2);
             }

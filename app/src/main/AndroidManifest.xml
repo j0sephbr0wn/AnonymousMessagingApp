@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_cap_alt"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".SetupChatActivity"></activity>
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".ProfileActivity" />
         <activity
             android:name=".MessageActivity"
             android:parentActivityName=".MainActivity" />
@@ -32,18 +34,13 @@
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
-        <!-- set notification icon -->
+            android:resource="@array/preloaded_fonts" /> <!-- set notification icon -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/spade" />
-
-        <!-- set notification colour -->
+            android:resource="@drawable/spade" /> <!-- set notification colour -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorCapgeminiBlue" />
-
     </application>
 
 </manifest>

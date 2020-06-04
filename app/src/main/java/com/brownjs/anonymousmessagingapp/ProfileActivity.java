@@ -86,11 +86,11 @@ public class ProfileActivity extends MyAppActivity {
         Button btnNewMessage = findViewById(R.id.btn_message);
 
         // get userId from intent and current userId from Firebase
-        final String userId = getIntent().getStringExtra("userId");
+        final String championId = getIntent().getStringExtra("userId");
         String currentUserId = FirebaseAuth.getInstance().getUid();
 
-        assert userId != null;
-        final boolean isCurrentUser = userId.equals(currentUserId);
+        assert championId != null;
+        final boolean isCurrentUser = championId.equals(currentUserId);
 
         if (isCurrentUser) {
             imgProfileImage.setOnClickListener(new View.OnClickListener() {
@@ -107,8 +107,8 @@ public class ProfileActivity extends MyAppActivity {
             btnNewMessage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(ProfileActivity.this, MessageActivity.class);
-                    intent.putExtra("userId", userId);
+                    Intent intent = new Intent(ProfileActivity.this, SetupChatActivity.class);
+                    intent.putExtra("championId", championId);
                     startActivity(intent);
                 }
             });
@@ -116,7 +116,7 @@ public class ProfileActivity extends MyAppActivity {
 
         Query query = FirebaseDatabase.getInstance().getReference("Users")
                 .orderByChild("id")
-                .equalTo(userId)
+                .equalTo(championId)
                 .limitToFirst(1);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
