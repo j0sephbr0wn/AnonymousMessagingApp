@@ -1,5 +1,10 @@
 package com.brownjs.anonymousmessagingapp.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Message {
 
     private String message;
@@ -37,5 +42,15 @@ public class Message {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Date getDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
+        try {
+            return sdf.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Date(System.currentTimeMillis());
     }
 }

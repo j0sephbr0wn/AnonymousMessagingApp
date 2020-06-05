@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MessageActivity"
-    android:background="@color/colorMetallicGray">
+    android:background="@color/colorMetallicGray"
+    tools:context=".MessageActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -14,8 +14,8 @@
         android:id="@+id/recyclerView_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/compose_message"/>
+        android:layout_above="@id/compose_message"
+        android:layout_below="@id/toolbar" />
 
     <RelativeLayout
         android:id="@+id/compose_message"
@@ -29,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@id/btn_send"
-            android:inputType="textCapSentences" />
+            android:inputType="textCapSentences|textMultiLine"
+            android:singleLine="false" />
 
         <ImageButton
             android:id="@+id/btn_send"

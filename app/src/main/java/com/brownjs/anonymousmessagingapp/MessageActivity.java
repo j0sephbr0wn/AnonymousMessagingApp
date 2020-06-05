@@ -32,6 +32,10 @@ public class MessageActivity extends AppCompatActivity {
     private String chatId;
     private String userId;
 
+    // vars for setting and releasing listener to read messages
+    private DatabaseReference markAsReadReference;
+    private ValueEventListener newMessageListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +88,7 @@ public class MessageActivity extends AppCompatActivity {
 
                             // scroll to most recent message
                             recyclerViewMessages.scrollToPosition(messagesList.size() - 1);
+
                         }
 
                         @Override
@@ -116,20 +121,25 @@ public class MessageActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Setup a listen to mark the chat as read. Any message received while in this activity will also be marked as read.
+     */
     private void markAsRead() {
-        final DatabaseReference chatReference = FirebaseDatabase.getInstance().getReference("Chats")
+        // assign reference
+        markAsReadReference = FirebaseDatabase.getInstance().getReference("Chats")
                 .child(chatId);
 
-        chatReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        // assign listener
+        newMessageListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Chat chat = dataSnapshot.getValue(Chat.class);
                 if (chat != null) {
-                    // mark chat as read
+                    // mark chat as read if i did not send the most recent message
                     if (!chat.getLatestMessager().equals(userId)) {
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("read", true);
-                        chatReference.updateChildren(hashMap);
+                        markAsReadReference.updateChildren(hashMap);
                     }
                 }
             }
@@ -138,9 +148,17 @@ public class MessageActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        // apply listener to reference
+        markAsReadReference.addValueEventListener(newMessageListener);
     }
 
+    /**
+     * Build the necessary data structures and put them in the document store
+     *
+     * @param message to be inserted
+     */
     private void sendMessage(String message) {
 
         // date formatter
@@ -185,9 +203,14 @@ public class MessageActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onPause() {
         super.onPause();
-        markAsRead();
+
+        // remove listen to mark as read when leaving this activity
+        markAsReadReference.removeEventListener(newMessageListener);
     }
 }

@@ -96,7 +96,7 @@ public class LoginActivity extends MyAppActivity {
      */
     private void login(String email, String password) {
 
-//        startLoadingAnimation();
+        startLoadingAnimation();
 
         // login with credentials
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
@@ -113,7 +113,7 @@ public class LoginActivity extends MyAppActivity {
                     Toast.makeText(LoginActivity.this, "Authentication unsuccessful.", Toast.LENGTH_LONG).show();
                 }
 
-//                endLoadingAnimation();
+                endLoadingAnimation();
             }
         });
     }

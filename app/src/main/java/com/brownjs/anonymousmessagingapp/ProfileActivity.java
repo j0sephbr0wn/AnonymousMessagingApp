@@ -220,16 +220,8 @@ public class ProfileActivity extends MyAppActivity {
 
             if (imageUri != null) {
                 uploadNewProfileImage(imageUri);
-            } else {
-                //TODO something went wrong
             }
         }
-
-//        if (uploadTask != null && uploadTask.isInProgress()) {
-//            Toast.makeText(getContext(), "Upload in progress", Toast.LENGTH_SHORT).show();
-//        } else {
-//            uploadImage();
-//        }
     }
 
     private void uploadNewProfileImage(Uri imageUri) {
@@ -246,7 +238,7 @@ public class ProfileActivity extends MyAppActivity {
         uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
+                if (!task.isSuccessful() && task.getException() != null) {
                     throw task.getException();
                 }
 
@@ -257,6 +249,7 @@ public class ProfileActivity extends MyAppActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
+                    assert downloadUri != null;
                     String mUri = downloadUri.toString();
 
                     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();

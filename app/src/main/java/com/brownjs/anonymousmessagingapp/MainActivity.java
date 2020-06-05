@@ -215,7 +215,11 @@ public class MainActivity extends MyAppActivity {
         return false;
     }
 
+    /**
+     *
+     */
     private void subscribeToStatusChanges() {
+
         FirebaseMessaging.getInstance().subscribeToTopic("anonymousUsers")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

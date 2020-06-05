@@ -1,6 +1,7 @@
 package com.brownjs.anonymousmessagingapp.adapters;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.brownjs.anonymousmessagingapp.R;
 import com.brownjs.anonymousmessagingapp.model.Message;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHolder> {
 
@@ -41,27 +47,46 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == 0) {
-            return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_message_left, parent, false));
+            return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_message_left, parent, false), viewType);
         }
 
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_message_right, parent, false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_message_right, parent, false), viewType);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-//        PrettyTime p = new PrettyTime();
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.UK);
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd MMM", Locale.UK);
 
         Message message = messageList.get(position);
 
         holder.txtMessage.setText(message.getMessage());
 
-//        if (position + 1 == messageList.size()) {
-//            holder.txtSeen.setText(message.getSender());
-//            holder.txtSeen.setVisibility(View.VISIBLE);
-//        } else {
-//            holder.txtSeen.setVisibility(View.GONE);
-//        }
+        // format time
+        String currentDay = dayFormat.format(System.currentTimeMillis());
+        String timeText = dayFormat.format(message.getDate());
+
+        if (currentDay.equals(timeText))
+            timeText = timeFormat.format(message.getDate());
+
+        holder.txtTime.setText(timeText);
+
+        if (getItemViewType(position) == 0) {
+            if (getItemViewType(position - 1) == 1) {
+                holder.imgProfile.setVisibility(View.VISIBLE);
+                holder.txtName.setVisibility(View.VISIBLE);
+            } else {
+                holder.imgProfile.setVisibility(View.INVISIBLE);
+                holder.txtName.setVisibility(View.GONE);
+            }
+        } else {
+            if (position + 1 == messageList.size()) {
+                holder.txtSeen.setVisibility(View.VISIBLE);
+            } else {
+                holder.txtSeen.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -71,15 +96,25 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        CircleImageView imgProfile;
+        TextView txtName;
         TextView txtMessage;
+        TextView txtTime;
         TextView txtSeen;
 
-        private ViewHolder(@NonNull View itemView) {
+        private ViewHolder(@NonNull View itemView, int viewType) {
             super(itemView);
 
-            txtMessage = itemView.findViewById(R.id.textView_message);
-            txtSeen = itemView.findViewById(R.id.textView_seen);
-
+            if (viewType == 0) {
+                imgProfile = itemView.findViewById(R.id.profile_image);
+                txtName = itemView.findViewById(R.id.textView_name);
+                txtMessage = itemView.findViewById(R.id.textView_message);
+                txtTime = itemView.findViewById(R.id.textView_time);
+            } else {
+                txtMessage = itemView.findViewById(R.id.textView_message);
+                txtSeen = itemView.findViewById(R.id.textView_seen);
+                txtTime = itemView.findViewById(R.id.textView_time);
+            }
         }
     }
 

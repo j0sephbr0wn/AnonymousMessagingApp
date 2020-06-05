@@ -30,7 +30,6 @@ public class RegisterActivity extends MyAppActivity {
     private EditText txtRegEmail;
     private EditText txtRegPassword;
     private EditText txtRegUsername;
-    private TextView txtRegInfo;
 
     /**
      * {@inheritDoc}
@@ -54,9 +53,9 @@ public class RegisterActivity extends MyAppActivity {
         txtRegEmail = findViewById(R.id.editText_reg_email);
         txtRegPassword = findViewById(R.id.editText_reg_password);
         txtRegUsername = findViewById(R.id.editText_reg_username);
-        txtRegInfo = findViewById(R.id.textView_reg_info);
+        TextView txtRegInfo = findViewById(R.id.textView_reg_info);
         Button btnRegCred = findViewById(R.id.btn_reg_cred);
-        Button btnRegNnon = findViewById(R.id.btn_reg_anon);
+        Button btnRegAnon = findViewById(R.id.btn_reg_anon);
 
         // set btn listeners
         btnRegCred.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +82,7 @@ public class RegisterActivity extends MyAppActivity {
             }
         });
 
-        btnRegNnon.setOnClickListener(new View.OnClickListener() {
+        btnRegAnon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
