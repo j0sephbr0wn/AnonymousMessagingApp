@@ -156,10 +156,12 @@ public class RegisterActivity extends MyAppActivity {
                                 hashMap.put("phone", "default");
                                 hashMap.put("role", "default");
                                 hashMap.put("location", "default");
+                                hashMap.put("token", "default");
                             } else {
                                 // build document
                                 hashMap.put("id", userId);
                                 hashMap.put("champion", false);
+                                hashMap.put("token", "default");
                             }
 
                             // put document in table and

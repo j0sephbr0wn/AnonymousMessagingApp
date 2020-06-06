@@ -101,7 +101,7 @@ public class SetupChatActivity extends AppCompatActivity {
                             .child("chatList");
 
                     HashMap<String, String> newChatListItem = new HashMap<>();
-                    newChatListItem.put("id", chatKey);
+//                    newChatListItem.put("id", chatKey);
 
                     currentUserChatListRef.push().setValue(newChatListItem);
                     championChatListRef.push().setValue(newChatListItem);

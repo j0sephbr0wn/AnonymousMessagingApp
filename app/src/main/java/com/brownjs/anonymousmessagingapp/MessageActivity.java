@@ -1,5 +1,6 @@
 package com.brownjs.anonymousmessagingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,7 +84,6 @@ public class MessageActivity extends MyAppActivity {
                             if (otherUser.isChampion()) {
                                 otherUsername = "Talking to " + otherUser.getUsername();
                             }
-
                             CircleImageView imgProfile = findViewById(R.id.profile_image);
                             CircleImageView imgOnline = findViewById(R.id.online);
                             CircleImageView imgOffline = findViewById(R.id.offline);
@@ -110,6 +110,16 @@ public class MessageActivity extends MyAppActivity {
                                 getSupportActionBar().setSubtitle(otherUsername);
                                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                             }
+
+                            // set listener for profile image
+                            imgProfile.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(MessageActivity.this, ProfileActivity.class);
+                                    intent.putExtra("userId", otherUserId);
+                                    startActivity(intent);
+                                }
+                            });
                         }
 
                         @Override
@@ -167,7 +177,6 @@ public class MessageActivity extends MyAppActivity {
 
             // mark this chat as read
             markAsRead();
-
         }
     }
 

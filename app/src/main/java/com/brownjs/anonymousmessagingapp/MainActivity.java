@@ -2,6 +2,8 @@ package com.brownjs.anonymousmessagingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.brownjs.anonymousmessagingapp.fragments.ChatsFragment;
 import com.brownjs.anonymousmessagingapp.model.User;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -31,9 +34,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -133,6 +139,8 @@ public class MainActivity extends MyAppActivity {
                     subscribeToStatusChanges();
                 }
 
+                refreshToken();
+
                 // set fragments in the activity
                 viewPager.setAdapter(viewPagerAdapter);
                 tabLayout.setupWithViewPager(viewPager);
@@ -226,6 +234,36 @@ public class MainActivity extends MyAppActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (!task.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "There was an issue subscribing to notifications", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void refreshToken() {
+
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        assert firebaseUser != null;
+        String uid = firebaseUser.getUid();
+//        Toast.makeText(this, uid, Toast.LENGTH_SHORT).show();
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+
+                        if (task.getResult() != null) {
+                            // Get new Instance ID token
+                            String token = task.getResult().getToken();
+
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("token", token);
+
+//                            Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
+                            Log.println(Log.INFO, "TOKEN", token);
+
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(firebaseUser.getUid());
+                            reference.updateChildren(hashMap);
                         }
                     }
                 });

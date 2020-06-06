@@ -5,7 +5,7 @@
     <corners
         android:radius="20dp" />
 
-    <solid android:color="@color/colorMessageBackgroundGray" />
+    <solid android:color="@color/colorWhite" />
 
 
 </shape>
