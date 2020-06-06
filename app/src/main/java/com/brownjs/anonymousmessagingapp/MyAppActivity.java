@@ -21,7 +21,6 @@ import java.util.Locale;
 
 public abstract class MyAppActivity extends AppCompatActivity {
 
-    private static final String DEFAULT_USERNAME = "Anonymous User";
     private static final String DEFAULT_PASSWORD = "default_password";
     private static final String PSEUDO_ID = "00" +
             Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
@@ -37,14 +36,6 @@ public abstract class MyAppActivity extends AppCompatActivity {
 
 
     public MyAppActivity() {
-    }
-
-    /**
-     * @return a id ...
-     */
-    String getDefaultUsername() {
-
-        return DEFAULT_USERNAME;
     }
 
     /**

@@ -86,7 +86,7 @@ public class RegisterActivity extends MyAppActivity {
             @Override
             public void onClick(View v) {
 
-                register(getPseudoId(), getDefaultPassword(), getDefaultUsername());
+                register(getPseudoId(), getDefaultPassword(), null);
             }
         });
 

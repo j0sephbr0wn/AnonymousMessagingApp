@@ -12,6 +12,8 @@
     <!-- background colours -->
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorMetallicGray">#F3F3F3</color>
+    <color name="colorMessageBackgroundPurple">#553b64</color>
+    <color name="colorMessageBackgroundGray">#E5E5E5</color>
 
     <color name="colorTransparentDark">#90000000</color>
 

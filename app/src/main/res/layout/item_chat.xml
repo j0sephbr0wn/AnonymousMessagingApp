@@ -69,7 +69,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="30dp"
-            android:src="@drawable/ic_chevron_right_blue_24dp" />
+            android:src="@drawable/ic_chevron_right_blue_24dp"
+            android:visibility="gone"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/unread"
@@ -79,7 +80,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/background_unread"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/online"
@@ -89,7 +90,7 @@
             android:layout_marginStart="-15dp"
             android:layout_toEndOf="@id/profile_image"
             android:background="@drawable/background_online"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/offline"
@@ -99,7 +100,7 @@
             android:layout_marginStart="-15dp"
             android:layout_toEndOf="@id/profile_image"
             android:background="@drawable/background_offline"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
     </RelativeLayout>
 

@@ -1,7 +1,6 @@
 package com.brownjs.anonymousmessagingapp.adapters;
 
 import android.content.Context;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.brownjs.anonymousmessagingapp.R;
 import com.brownjs.anonymousmessagingapp.model.Message;
+import com.brownjs.anonymousmessagingapp.model.User;
+import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -27,6 +27,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     private String userId;
     private ArrayList<Message> messageList;
 
+    private User otherUser;
+    private boolean seen;
+
     public MessagesAdapter(Context context, String userId, ArrayList<Message> messageList) {
         this.context = context;
         this.userId = userId;
@@ -35,10 +38,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        int type = 0;
+        int type = 100;
 
-        if (messageList.get(position).getSender().equals(userId))
-            type = 1;
+        if (position < messageList.size() && position >= 0) {
+            type = 0;
+            if (messageList.get(position).getSender().equals(userId))
+                type = 1;
+        }
 
         return type;
     }
@@ -56,12 +62,58 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.UK);
-        SimpleDateFormat dayFormat = new SimpleDateFormat("dd MMM", Locale.UK);
-
         Message message = messageList.get(position);
 
         holder.txtMessage.setText(message.getMessage());
+
+        // display message times
+        String messageTimeText = formatMessageTime(message);
+        String nextTimeText = "";
+        holder.txtTime.setVisibility(View.GONE);
+        if (position + 1 != messageList.size())
+            nextTimeText = formatMessageTime(messageList.get(position + 1));
+        if (getItemViewType(position) != getItemViewType(position + 1)
+                || !messageTimeText.equals(nextTimeText)) {
+            holder.txtTime.setText(messageTimeText);
+            holder.txtTime.setVisibility(View.VISIBLE);
+        }
+
+        if (getItemViewType(position) == 0) {
+            if (getItemViewType(position - 1) == 1) {
+                if (otherUser.isChampion()) {
+                    Glide.with(context)
+                            .load(otherUser.getImageURL())
+                            .into(holder.imgProfile);
+                    holder.txtName.setText(otherUser.getUsername());
+                } else {
+                    holder.txtName.setText(R.string.DEFAULT_USERNAME);
+                }
+                holder.imgProfile.setVisibility(View.VISIBLE);
+
+
+                holder.txtName.setVisibility(View.VISIBLE);
+            } else {
+                holder.imgProfile.setVisibility(View.INVISIBLE);
+                holder.txtName.setVisibility(View.GONE);
+            }
+        }
+        // type 1
+        else {
+            if (position + 1 == messageList.size()) {
+                String seenText = "Delivered";
+                if (seen)
+                    seenText = "Seen";
+                holder.txtSeen.setText(seenText);
+                holder.txtSeen.setVisibility(View.VISIBLE);
+            } else {
+                holder.txtSeen.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private String formatMessageTime(Message message) {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.UK);
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd MMM", Locale.UK);
 
         // format time
         String currentDay = dayFormat.format(System.currentTimeMillis());
@@ -70,23 +122,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         if (currentDay.equals(timeText))
             timeText = timeFormat.format(message.getDate());
 
-        holder.txtTime.setText(timeText);
-
-        if (getItemViewType(position) == 0) {
-            if (getItemViewType(position - 1) == 1) {
-                holder.imgProfile.setVisibility(View.VISIBLE);
-                holder.txtName.setVisibility(View.VISIBLE);
-            } else {
-                holder.imgProfile.setVisibility(View.INVISIBLE);
-                holder.txtName.setVisibility(View.GONE);
-            }
-        } else {
-            if (position + 1 == messageList.size()) {
-                holder.txtSeen.setVisibility(View.VISIBLE);
-            } else {
-                holder.txtSeen.setVisibility(View.GONE);
-            }
-        }
+        return timeText;
     }
 
     @Override
@@ -118,8 +154,18 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         }
     }
 
-    public void updateMessageList(ArrayList<Message> messageList) {
+    public void updateMessages(ArrayList<Message> messageList) {
         this.messageList = messageList;
+        notifyDataSetChanged();
+    }
+
+    public void setOtherUser(User otherUser) {
+        this.otherUser = otherUser;
+        notifyDataSetChanged();
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
         notifyDataSetChanged();
     }
 }

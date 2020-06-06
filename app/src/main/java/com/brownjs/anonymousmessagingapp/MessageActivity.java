@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.brownjs.anonymousmessagingapp.adapters.MessagesAdapter;
 import com.brownjs.anonymousmessagingapp.model.Chat;
 import com.brownjs.anonymousmessagingapp.model.Message;
+import com.brownjs.anonymousmessagingapp.model.User;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +30,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class MessageActivity extends AppCompatActivity {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class MessageActivity extends MyAppActivity {
 
     private String chatId;
     private String userId;
@@ -36,6 +41,8 @@ public class MessageActivity extends AppCompatActivity {
     private DatabaseReference markAsReadReference;
     private ValueEventListener newMessageListener;
 
+    private MessagesAdapter messagesAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,21 +50,14 @@ public class MessageActivity extends AppCompatActivity {
 
         // get data from intent
         chatId = getIntent().getStringExtra("chatId");
-        String subject = getIntent().getStringExtra("subject");
+        final String subject = getIntent().getStringExtra("subject");
+        final String otherUserId = getIntent().getStringExtra("otherUser");
 
         // set current user id
         userId = FirebaseAuth.getInstance().getUid();
 
-        // only proceed if data from the intent is present
-        if (chatId != null && subject != null) {
-
-            // setup common_toolbar
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle(subject);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            }
+        // only proceed if all data from the intent is present
+        if (chatId != null && subject != null && otherUserId != null) {
 
             // setup messages recyclerView
             final RecyclerView recyclerViewMessages = findViewById(R.id.recyclerView_message);
@@ -65,8 +65,58 @@ public class MessageActivity extends AppCompatActivity {
             recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
 
             final ArrayList<Message> messagesList = new ArrayList<>();
-            final MessagesAdapter messagesAdapter = new MessagesAdapter(this, userId, messagesList);
+            messagesAdapter = new MessagesAdapter(this, userId, messagesList);
             recyclerViewMessages.setAdapter(messagesAdapter);
+
+            // set listener for other user
+            FirebaseDatabase.getInstance().getReference("Users")
+                    .child(otherUserId)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            final User otherUser = dataSnapshot.getValue(User.class);
+                            assert otherUser != null;
+
+                            messagesAdapter.setOtherUser(otherUser);
+                            String otherUsername = null;
+
+                            if (otherUser.isChampion()) {
+                                otherUsername = "Talking to " + otherUser.getUsername();
+                            }
+
+                            CircleImageView imgProfile = findViewById(R.id.profile_image);
+                            CircleImageView imgOnline = findViewById(R.id.online);
+                            CircleImageView imgOffline = findViewById(R.id.offline);
+
+                            if (otherUser.isChampion()) {
+                                Glide.with(getApplicationContext())
+                                        .load(otherUser.getImageURL())
+                                        .into(imgProfile);
+
+                                if (otherUser.getStatus().equals("online")) {
+                                    imgOnline.setVisibility(View.VISIBLE);
+                                    imgOffline.setVisibility(View.GONE);
+                                } else {
+                                    imgOnline.setVisibility(View.GONE);
+                                    imgOffline.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                            // setup common_toolbar
+                            Toolbar toolbar = findViewById(R.id.toolbar);
+                            setSupportActionBar(toolbar);
+                            if (getSupportActionBar() != null) {
+                                getSupportActionBar().setTitle(subject);
+                                getSupportActionBar().setSubtitle(otherUsername);
+                                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
 
             // set listener for receiving new messages
             FirebaseDatabase.getInstance().getReference("Chats")
@@ -84,7 +134,7 @@ public class MessageActivity extends AppCompatActivity {
                             }
 
                             // update recyclerView
-                            messagesAdapter.updateMessageList(messagesList);
+                            messagesAdapter.updateMessages(messagesList);
 
                             // scroll to most recent message
                             recyclerViewMessages.scrollToPosition(messagesList.size() - 1);
@@ -98,7 +148,7 @@ public class MessageActivity extends AppCompatActivity {
                     });
 
             // set listener for sending new message
-            ImageButton btnSend = findViewById(R.id.btn_send);
+            ImageView btnSend = findViewById(R.id.btn_send);
             btnSend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -135,12 +185,15 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Chat chat = dataSnapshot.getValue(Chat.class);
                 if (chat != null) {
-                    // mark chat as read if i did not send the most recent message
+                    // mark chat as read if current user did not send the most recent message
                     if (!chat.getLatestMessager().equals(userId)) {
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("read", true);
                         markAsReadReference.updateChildren(hashMap);
                     }
+
+                    //
+                    messagesAdapter.setSeen(chat.isRead());
                 }
             }
 

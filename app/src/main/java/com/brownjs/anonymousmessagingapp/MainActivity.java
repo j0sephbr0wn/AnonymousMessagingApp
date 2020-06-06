@@ -121,7 +121,7 @@ public class MainActivity extends MyAppActivity {
                 // user is not a champion
                 else {
                     // set username
-                    txtUsername.setText(getDefaultUsername());
+                    txtUsername.setText(R.string.DEFAULT_USERNAME);
                     // set profile image
                     imgProfile.setImageResource(R.drawable.spade_red);
 

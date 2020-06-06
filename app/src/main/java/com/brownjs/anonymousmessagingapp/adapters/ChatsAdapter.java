@@ -74,12 +74,16 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             case 0:
                 final Chat chat = (Chat) viewList.get(position);
 
+                final String otherUserId;
+
                 int userHash;
                 boolean isLastRespondent;
                 if (isChampion) {
+                    otherUserId = chat.getInitiator();
                     userHash = chat.getInitiator().hashCode();
                     isLastRespondent = chat.getLatestMessager().equals(chat.getChampion());
                 } else {
+                    otherUserId = chat.getChampion();
                     userHash = chat.getChampion().hashCode();
                     isLastRespondent = chat.getLatestMessager().equals(chat.getInitiator());
                 }
@@ -113,6 +117,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                         Intent intent = new Intent(context, MessageActivity.class);
                         intent.putExtra("chatId", chat.getId());
                         intent.putExtra("subject", chat.getSubject());
+                        intent.putExtra("otherUser", otherUserId);
                         context.startActivity(intent);
                     }
                 });

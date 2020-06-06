@@ -111,6 +111,7 @@ public class SetupChatActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                     intent.putExtra("chatId", chatKey);
                     intent.putExtra("subject", subject);
+                    intent.putExtra("otherUser", championId);
                     startActivity(intent);
                     finish();
                 }

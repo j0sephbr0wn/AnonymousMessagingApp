@@ -6,5 +6,6 @@
     <string name="reg_info"><u>How does this work?</u></string>
 
     <string name="placeholder_string">Placeholder##</string>
+    <string name="DEFAULT_USERNAME">Anonymous User</string>
 
 </resources>
