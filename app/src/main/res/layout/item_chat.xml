@@ -111,6 +111,6 @@
         android:layout_below="@+id/item"
         android:layout_marginStart="70dp"
         android:layout_marginEnd="20dp"
-        android:background="@color/colorGray" />
+        android:background="@color/colorMessageBackgroundGray" />
 
 </RelativeLayout>

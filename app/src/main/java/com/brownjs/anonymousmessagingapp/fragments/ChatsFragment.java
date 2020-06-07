@@ -23,6 +23,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,19 +99,7 @@ public class ChatsFragment extends Fragment {
                     chatList.add(chat);
                 }
 
-                // sort on last message time
-//                for (Chat sortChat : chatList) {
-//                    int pos = chatList.indexOf(sortChat);
-//                    Date max = sortChat.getLatestMessageTime();
-//
-//                    for (int i = 0; i < pos; i++) {
-//                        Date comp = chatList.get(i).getLatestMessageTime();
-//
-//                        if (comp.after(max)) {
-//
-//                        }
-//                    }
-//                }
+                Collections.sort(chatList);
 
                 chatsAdapter.updateChatList(chatList);
             }

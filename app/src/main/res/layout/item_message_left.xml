@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="2dp">
+    android:layout_marginStart="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginTop="2dp"
         android:src="@drawable/spade_red" />
 
     <TextView
@@ -16,12 +16,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginBottom="2dp"
         android:layout_toEndOf="@id/profile_image"
+        android:layout_alignTop="@id/profile_image"
         android:fontFamily="@font/ubuntu"
         android:text="@string/placeholder_string"
         android:textSize="12sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/textView_message"
@@ -30,11 +30,13 @@
         android:layout_below="@id/textView_name"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="100dp"
+        android:layout_marginBottom="4dp"
         android:layout_toEndOf="@id/profile_image"
         android:background="@drawable/background_message_left"
         android:elevation="2dp"
         android:fontFamily="@font/ubuntu"
         android:padding="10dp"
+        android:text="@string/placeholder_string"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
 
@@ -44,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_message"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="-2dp"
         android:layout_toEndOf="@id/profile_image"
         android:fontFamily="@font/ubuntu"
         android:text="@string/placeholder_string"

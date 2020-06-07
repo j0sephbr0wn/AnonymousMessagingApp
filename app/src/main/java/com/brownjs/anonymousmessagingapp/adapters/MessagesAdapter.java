@@ -79,7 +79,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         }
 
         if (getItemViewType(position) == 0) {
-            if (getItemViewType(position - 1) == 1) {
+            if (getItemViewType(position - 1) == 1 || getItemViewType(position - 1) == 100) {
                 if (otherUser.isChampion()) {
                     Glide.with(context)
                             .load(otherUser.getImageURL())
@@ -88,10 +88,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                 } else {
                     holder.txtName.setText(R.string.DEFAULT_USERNAME);
                 }
-                holder.imgProfile.setVisibility(View.VISIBLE);
-
 
                 holder.txtName.setVisibility(View.VISIBLE);
+                holder.imgProfile.setVisibility(View.VISIBLE);
+
             } else {
                 holder.imgProfile.setVisibility(View.INVISIBLE);
                 holder.txtName.setVisibility(View.GONE);

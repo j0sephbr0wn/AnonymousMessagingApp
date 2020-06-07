@@ -85,7 +85,7 @@ public class SetupChatActivity extends AppCompatActivity {
                     newChat.put("initiator", currentUser.getUid());
                     newChat.put("latest_message", "No messages yet");
                     newChat.put("latest_message_time", sdf.format(System.currentTimeMillis()));
-                    newChat.put("latest_messager", currentUser.getUid());
+                    newChat.put("latest_messager", championId);
                     newChat.put("read", false);
                     newChat.put("subject", subject);
 

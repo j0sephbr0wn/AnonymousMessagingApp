@@ -10,8 +10,8 @@
         android:layout_marginTop="30dp"
         android:fontFamily="@font/ubuntu"
         android:gravity="center"
-        android:text="Champions"
+        android:text="Available Champions"
         android:textColor="@color/colorCapgeminiBlue"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
 </RelativeLayout>

@@ -120,7 +120,7 @@ public class RegisterActivity extends MyAppActivity {
     private void register(final String email, String password, final String username) {
 
         // display loading animation
-//        startLoadingAnimation();
+        startLoadingAnimation();
 
         // get Firebase auth instance
         final FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -182,7 +182,7 @@ public class RegisterActivity extends MyAppActivity {
                         }
 
                         // remover loading animation
-//                        endLoadingAnimation();
+                        endLoadingAnimation();
                     }
                 });
     }

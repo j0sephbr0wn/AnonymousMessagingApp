@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Chat {
+public class Chat implements Comparable<Chat>{
 
     private String id;
     private String initiator;
@@ -127,11 +127,15 @@ public class Chat {
         this.read = read;
     }
 
-    //    public String getUnread() {
-//        return unread;
-//    }
-//
-//    public void setUnread(String unread) {
-//        this.unread = unread;
-//    }
+    @Override
+    public int compareTo(Chat o) {
+        if (this.getLatestMessageTime().before(o.getLatestMessageTime()))
+            return 1;
+
+        if (this.getLatestMessageTime().after(o.getLatestMessageTime()))
+            return -1;
+
+        return 0;
+    }
+
 }

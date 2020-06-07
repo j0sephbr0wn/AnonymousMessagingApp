@@ -63,43 +63,36 @@ public class MessageActivity extends MyAppActivity {
             // setup messages recyclerView
             final RecyclerView recyclerViewMessages = findViewById(R.id.recyclerView_message);
             recyclerViewMessages.setHasFixedSize(false);
-            recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setStackFromEnd(true);
+//            recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
+            recyclerViewMessages.setLayoutManager(linearLayoutManager);
 
             final ArrayList<Message> messagesList = new ArrayList<>();
             messagesAdapter = new MessagesAdapter(this, userId, messagesList);
-            recyclerViewMessages.setAdapter(messagesAdapter);
 
             // set listener for other user
             FirebaseDatabase.getInstance().getReference("Users")
                     .child(otherUserId)
-                    .addValueEventListener(new ValueEventListener() {
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             final User otherUser = dataSnapshot.getValue(User.class);
                             assert otherUser != null;
 
                             messagesAdapter.setOtherUser(otherUser);
+                            recyclerViewMessages.setAdapter(messagesAdapter);
                             String otherUsername = null;
 
                             if (otherUser.isChampion()) {
                                 otherUsername = "Talking to " + otherUser.getUsername();
                             }
                             CircleImageView imgProfile = findViewById(R.id.profile_image);
-                            CircleImageView imgOnline = findViewById(R.id.online);
-                            CircleImageView imgOffline = findViewById(R.id.offline);
 
                             if (otherUser.isChampion()) {
                                 Glide.with(getApplicationContext())
                                         .load(otherUser.getImageURL())
                                         .into(imgProfile);
-
-                                if (otherUser.getStatus().equals("online")) {
-                                    imgOnline.setVisibility(View.VISIBLE);
-                                    imgOffline.setVisibility(View.GONE);
-                                } else {
-                                    imgOnline.setVisibility(View.GONE);
-                                    imgOffline.setVisibility(View.VISIBLE);
-                                }
                             }
 
                             // setup common_toolbar
@@ -120,6 +113,36 @@ public class MessageActivity extends MyAppActivity {
                                     startActivity(intent);
                                 }
                             });
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+            // set listener for other user status changes
+            FirebaseDatabase.getInstance().getReference("Users")
+                    .child(otherUserId)
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            User otherUser = dataSnapshot.getValue(User.class);
+                            assert otherUser != null;
+
+                            if (otherUser.isChampion()) {
+
+                                CircleImageView imgOnline = findViewById(R.id.online);
+                                CircleImageView imgOffline = findViewById(R.id.offline);
+
+                                if (otherUser.getStatus().equals("online")) {
+                                    imgOnline.setVisibility(View.VISIBLE);
+                                    imgOffline.setVisibility(View.GONE);
+                                } else {
+                                    imgOnline.setVisibility(View.GONE);
+                                    imgOffline.setVisibility(View.VISIBLE);
+                                }
+                            }
                         }
 
                         @Override
@@ -199,10 +222,11 @@ public class MessageActivity extends MyAppActivity {
                         HashMap<String, Object> hashMap = new HashMap<>();
                         hashMap.put("read", true);
                         markAsReadReference.updateChildren(hashMap);
-                    }
 
-                    //
-                    messagesAdapter.setSeen(chat.isRead());
+                    } else {
+                        // if current user sent the latest message, update adapter to the read value
+                        messagesAdapter.setSeen(chat.isRead());
+                    }
                 }
             }
 
@@ -272,7 +296,7 @@ public class MessageActivity extends MyAppActivity {
     protected void onPause() {
         super.onPause();
 
-        // remove listen to mark as read when leaving this activity
+        // remove listener to mark as read when leaving this activity
         markAsReadReference.removeEventListener(newMessageListener);
     }
 }

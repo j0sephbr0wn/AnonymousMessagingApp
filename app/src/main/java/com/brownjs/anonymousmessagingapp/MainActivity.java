@@ -84,7 +84,7 @@ public class MainActivity extends MyAppActivity {
                 .child(firebaseUser.getUid());
 
         // show animation while loading data
-//        startLoadingAnimation();
+        startLoadingAnimation();
 
         // get user information from document store (only do this once)
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -146,7 +146,7 @@ public class MainActivity extends MyAppActivity {
                 tabLayout.setupWithViewPager(viewPager);
 
                 // work done, end loading animation
-//                endLoadingAnimation();
+                endLoadingAnimation();
             }
 
             @Override
@@ -243,7 +243,7 @@ public class MainActivity extends MyAppActivity {
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         assert firebaseUser != null;
-        String uid = firebaseUser.getUid();
+//        String uid = firebaseUser.getUid();
 //        Toast.makeText(this, uid, Toast.LENGTH_SHORT).show();
 
         FirebaseInstanceId.getInstance().getInstanceId()
