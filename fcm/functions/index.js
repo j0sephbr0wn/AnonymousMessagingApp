@@ -54,6 +54,7 @@ exports.sendChampionOnlineNotification = functions.database.ref('/Users/{pushId}
     return null;
 });
 
+// function to notify users when they have been messaged
 exports.sendNewMessageNotification = functions.database.ref('/Chats/{pushId}')
     .onUpdate((change, context) => {
 
@@ -80,7 +81,7 @@ exports.sendNewMessageNotification = functions.database.ref('/Chats/{pushId}')
         // Attach an asynchronous callback to read the data at our posts reference
         ref.once("value", snapshot => {
           const token = snapshot.val();
-          console.log("Token = " + snapshot.val());
+          console.log("Token = " + token);
 
           // build notification
           const payload = {
