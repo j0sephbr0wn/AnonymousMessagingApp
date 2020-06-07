@@ -3,10 +3,10 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
 // function to notify anonymous users when a champion comes online
-// can be simplified to only monitor status_online_time
 exports.sendChampionOnlineNotification = functions.database.ref('/Users/{pushId}')
     .onUpdate((change, context) => {
       console.log('Change to Users detected');
+
       // get before and after data
       const beforeUser = change.before.val();
       const afterUser = change.after.val();
@@ -28,6 +28,7 @@ exports.sendChampionOnlineNotification = functions.database.ref('/Users/{pushId}
         // send notification if time between being online is greater than threshold
         if (afterTime > thresholdTime) {
           console.log('Online threshold met');
+
           // build notification
           const payload = {
             notification: {
@@ -53,7 +54,59 @@ exports.sendChampionOnlineNotification = functions.database.ref('/Users/{pushId}
     return null;
 });
 
-// need to get token from database
+exports.sendNewMessageNotification = functions.database.ref('/Chats/{pushId}')
+    .onUpdate((change, context) => {
 
-// send to individual device
-// https://firebase.google.com/docs/cloud-messaging/send-message#send_to_individual_devices
+      console.log('Change to Chats detected');
+
+      // get before and after data
+      const beforeChat = change.before.val();
+      const afterChat = change.after.val();
+
+      // before and after latest_messager
+      const beforeLatestMessager = beforeChat.latest_messager;
+      const afterLatestMessager = afterChat.latest_messager;
+
+      console.log('Before: ' + beforeLatestMessager);
+      console.log('After: ' + afterLatestMessager);
+
+      if (beforeLatestMessager !== afterLatestMessager) {
+        console.log('Latest messager has changed');
+
+        // Get a database reference to our posts
+        var db = admin.database();
+        var ref = db.ref(`/Users/${beforeLatestMessager}/token`);
+
+        // Attach an asynchronous callback to read the data at our posts reference
+        ref.once("value", snapshot => {
+          const token = snapshot.val();
+          console.log("Token = " + snapshot.val());
+
+          // build notification
+          const payload = {
+            notification: {
+              title: "You have a new message",
+              body: "Check the app to see"
+            },
+            token: `${token}`
+          };
+
+          // send notifications to topic subscribers
+          return admin.messaging()
+            .send(payload)
+            .then(response => {
+              return console.log('Notification sent successfully', response);
+            })
+            .catch(error => {
+              return console.log('Notification send failed:', error);
+            });
+
+        }, errorObject => {
+          return console.log("The read failed: " + errorObject.code);
+        });
+      }
+
+      // no notification sent
+      console.log('Change does not meet requirements, no notification sent');
+      return null;
+});
