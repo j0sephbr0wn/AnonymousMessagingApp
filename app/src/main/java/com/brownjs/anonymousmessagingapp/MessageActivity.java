@@ -93,6 +93,16 @@ public class MessageActivity extends MyAppActivity {
                                 Glide.with(getApplicationContext())
                                         .load(otherUser.getImageURL())
                                         .into(imgProfile);
+
+                                // set listener for profile image
+                                imgProfile.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(MessageActivity.this, ProfileActivity.class);
+                                        intent.putExtra("userId", otherUserId);
+                                        startActivity(intent);
+                                    }
+                                });
                             }
 
                             // setup common_toolbar
@@ -103,16 +113,6 @@ public class MessageActivity extends MyAppActivity {
                                 getSupportActionBar().setSubtitle(otherUsername);
                                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                             }
-
-                            // set listener for profile image
-                            imgProfile.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(MessageActivity.this, ProfileActivity.class);
-                                    intent.putExtra("userId", otherUserId);
-                                    startActivity(intent);
-                                }
-                            });
                         }
 
                         @Override
