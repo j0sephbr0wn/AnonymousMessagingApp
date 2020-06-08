@@ -102,7 +102,7 @@ public class MainActivity extends MyAppActivity {
                 assert userEmail != null;
 
                 // user is a champion
-                if (userEmail.endsWith(getChampionEmailSuffix())) {
+                if (currentUser.isChampion()) {
                     // set username
                     txtUsername.setText(currentUser.getUsername());
 
@@ -123,6 +123,24 @@ public class MainActivity extends MyAppActivity {
                     viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
                     viewPagerAdapter.addFragment(new ChampionsFragment(), "Champions");
                     tabLayout.setVisibility(View.VISIBLE);
+
+                    txtUsername.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                            profileIntent.putExtra("userId", firebaseUser.getUid());
+                            startActivity(profileIntent);
+                        }
+                    });
+
+                    imgProfile.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                            profileIntent.putExtra("userId", firebaseUser.getUid());
+                            startActivity(profileIntent);
+                        }
+                    });
                 }
                 // user is not a champion
                 else {
