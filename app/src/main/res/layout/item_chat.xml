@@ -14,7 +14,7 @@
             android:id="@+id/profile_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/spade_red" />
+            android:src="@drawable/spade_gray" />
 
         <TextView
             android:id="@+id/main_text"

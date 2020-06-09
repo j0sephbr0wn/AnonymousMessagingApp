@@ -25,14 +25,16 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     private Context context;
 
     private String userId;
+    private String chatId;
     private ArrayList<Message> messageList;
 
     private User otherUser;
     private boolean seen;
 
-    public MessagesAdapter(Context context, String userId, ArrayList<Message> messageList) {
+    public MessagesAdapter(Context context, String userId, String chatId, ArrayList<Message> messageList) {
         this.context = context;
         this.userId = userId;
+        this.chatId = chatId;
         this.messageList = messageList;
     }
 
@@ -87,6 +89,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                     holder.txtName.setText(otherUser.getUsername());
                 } else {
                     holder.txtName.setText(R.string.DEFAULT_USERNAME);
+                    Glide.with(context)
+                            .load(getDefaultImage(chatId.hashCode()))
+                            .into(holder.imgProfile);
                 }
 
                 holder.txtName.setVisibility(View.VISIBLE);
@@ -167,6 +172,17 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     public void setSeen(boolean seen) {
         this.seen = seen;
         notifyDataSetChanged();
+    }
+
+    private int getDefaultImage(int uidHash) {
+        switch (Math.abs(uidHash) % 3) {
+            case 0:
+                return R.drawable.spade_green;
+            case 1:
+                return R.drawable.spade_purple;
+            default:
+                return R.drawable.spade_red;
+        }
     }
 }
 

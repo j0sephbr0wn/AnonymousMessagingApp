@@ -106,17 +106,10 @@ public class MainActivity extends MyAppActivity {
                     // set username
                     txtUsername.setText(currentUser.getUsername());
 
-                    // set profile image
-                    // use default if image not set
-                    if (currentUser.getImageURL().equals("default")) {
-                        imgProfile.setImageResource(R.drawable.spade_red);
-                    }
-                    // load image if set
-                    else {
-                        Glide.with(getApplicationContext())
-                                .load(currentUser.getImageURL())
-                                .into(imgProfile);
-                    }
+                    // set profile
+                    Glide.with(getApplicationContext())
+                            .load(currentUser.getImageURL())
+                            .into(imgProfile);
 
                     // set champion specific ui elements
                     fabNewMessage.hide();
@@ -146,8 +139,6 @@ public class MainActivity extends MyAppActivity {
                 else {
                     // set username
                     txtUsername.setText(R.string.DEFAULT_USERNAME);
-                    // set profile image
-                    imgProfile.setImageResource(R.drawable.spade_red);
 
                     // set anon user ui specific elements
                     fabNewMessage.show();

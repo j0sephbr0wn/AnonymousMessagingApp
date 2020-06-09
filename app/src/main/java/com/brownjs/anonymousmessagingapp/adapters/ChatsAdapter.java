@@ -76,21 +76,21 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
                 final String otherUserId;
 
-                int userHash;
+
                 boolean isLastRespondent;
                 if (isChampion) {
                     otherUserId = chat.getInitiator();
-                    userHash = chat.getInitiator().hashCode();
                     isLastRespondent = chat.getLatestMessager().equals(chat.getChampion());
                 } else {
                     otherUserId = chat.getChampion();
-                    userHash = chat.getChampion().hashCode();
                     isLastRespondent = chat.getLatestMessager().equals(chat.getInitiator());
                 }
 
+                int chatHash = chat.getId().hashCode();
+
                 // decide which profile image to use
                 Glide.with(context)
-                        .load(getDefaultImage(userHash))
+                        .load(getDefaultImage(chatHash))
                         .into(holder.imgProfile);
 
                 holder.txtMain.setText(chat.getSubject());

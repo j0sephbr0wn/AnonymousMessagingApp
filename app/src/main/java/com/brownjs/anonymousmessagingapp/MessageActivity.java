@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,11 +63,10 @@ public class MessageActivity extends MyAppActivity {
             recyclerViewMessages.setHasFixedSize(false);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setStackFromEnd(true);
-//            recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
             recyclerViewMessages.setLayoutManager(linearLayoutManager);
 
             final ArrayList<Message> messagesList = new ArrayList<>();
-            messagesAdapter = new MessagesAdapter(this, userId, messagesList);
+            messagesAdapter = new MessagesAdapter(this, userId, chatId, messagesList);
 
             // set listener for other user
             FirebaseDatabase.getInstance().getReference("Users")
@@ -84,12 +81,11 @@ public class MessageActivity extends MyAppActivity {
                             recyclerViewMessages.setAdapter(messagesAdapter);
                             String otherUsername = null;
 
-                            if (otherUser.isChampion()) {
-                                otherUsername = "Talking to " + otherUser.getUsername();
-                            }
                             CircleImageView imgProfile = findViewById(R.id.profile_image);
 
                             if (otherUser.isChampion()) {
+                                otherUsername = "Talking to " + otherUser.getUsername();
+
                                 Glide.with(getApplicationContext())
                                         .load(otherUser.getImageURL())
                                         .into(imgProfile);
@@ -103,6 +99,12 @@ public class MessageActivity extends MyAppActivity {
                                         startActivity(intent);
                                     }
                                 });
+                            } else {
+
+                                //
+                                Glide.with(getApplicationContext())
+                                        .load(getDefaultImage(chatId.hashCode()))
+                                        .into(imgProfile);
                             }
 
                             // setup common_toolbar
@@ -298,5 +300,16 @@ public class MessageActivity extends MyAppActivity {
 
         // remove listener to mark as read when leaving this activity
         markAsReadReference.removeEventListener(newMessageListener);
+    }
+
+    private int getDefaultImage(int uidHash) {
+        switch (Math.abs(uidHash) % 3) {
+            case 0:
+                return R.drawable.spade_green;
+            case 1:
+                return R.drawable.spade_purple;
+            default:
+                return R.drawable.spade_red;
+        }
     }
 }
