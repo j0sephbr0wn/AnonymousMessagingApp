@@ -64,7 +64,6 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
                 android:gravity="center"
-                android:text="@string/placeholder_string"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -74,16 +73,15 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ubuntu"
                 android:gravity="center"
-                android:text="@string/placeholder_string"
                 android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btn_message"
+                style="@style/ButtonRed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                style="@style/ButtonRed"
                 android:fontFamily="@font/ubuntu"
                 android:text="Message Now"
                 android:textColor="@color/colorGray" />
@@ -105,13 +103,14 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <TextView
+                <EditText
                     android:id="@+id/phone_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:background="@color/colorWhite"
                     android:fontFamily="@font/ubuntu"
-                    android:text="@string/placeholder_string"
+                    android:inputType="phone"
                     android:textSize="16sp" />
 
                 <View
@@ -119,13 +118,14 @@
                     android:layout_height="1dp"
                     android:background="@color/colorGray" />
 
-                <TextView
+                <EditText
                     android:id="@+id/email_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:background="@color/colorWhite"
                     android:fontFamily="@font/ubuntu"
-                    android:text="@string/placeholder_string"
+                    android:inputType="textEmailAddress"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -147,13 +147,14 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <TextView
+                <EditText
                     android:id="@+id/role"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:background="@color/colorWhite"
                     android:fontFamily="@font/ubuntu"
-                    android:text="@string/placeholder_string"
+                    android:inputType="textCapWords"
                     android:textSize="16sp" />
 
                 <View
@@ -161,13 +162,14 @@
                     android:layout_height="1dp"
                     android:background="@color/colorGray" />
 
-                <TextView
+                <EditText
                     android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:background="@color/colorWhite"
                     android:fontFamily="@font/ubuntu"
-                    android:text="@string/placeholder_string"
+                    android:inputType="textCapWords"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -190,12 +192,13 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <TextView
+                <EditText
                     android:id="@+id/about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
                     android:fontFamily="@font/ubuntu"
-                    android:text="@string/placeholder_string"
+                    android:inputType="textCapSentences|textMultiLine"
                     android:textSize="16sp" />
 
             </LinearLayout>

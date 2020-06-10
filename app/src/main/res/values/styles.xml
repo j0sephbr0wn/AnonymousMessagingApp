@@ -32,4 +32,8 @@
         <item name="android:background">@drawable/background_rounded_red</item>
     </style>
 
+    <style name="ButtonGray" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/background_rounded_gray</item>
+    </style>
+
 </resources>

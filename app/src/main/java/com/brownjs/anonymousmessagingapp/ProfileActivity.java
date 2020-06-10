@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -43,7 +45,7 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileActivity extends MyAppActivity {
+public class ProfileActivity extends MyAppActivity{
 
     private static final int REQUEST_READ_EXTERNAL_PERMISSION = 11;
     private static final int IMAGE_REQUEST = 22;
@@ -87,12 +89,14 @@ public class ProfileActivity extends MyAppActivity {
 
         // get userId from intent and current userId from Firebase
         final String championId = getIntent().getStringExtra("userId");
-        String currentUserId = FirebaseAuth.getInstance().getUid();
+        final String currentUserId = FirebaseAuth.getInstance().getUid();
 
         assert championId != null;
         final boolean isCurrentUser = championId.equals(currentUserId);
 
         if (isCurrentUser) {
+
+            // set new profile image on click
             imgProfileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -100,10 +104,63 @@ public class ProfileActivity extends MyAppActivity {
                 }
             });
 
+            // set ui elements
+            btnNewMessage.setVisibility(View.GONE);
             imgOnline.setImageResource(R.drawable.ic_edit_blue_24dp);
             imgOffline.setImageResource(R.drawable.ic_edit_blue_24dp);
-            btnNewMessage.setVisibility(View.GONE);
+
+            // write to database on text change
+            TextWatcher textWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    HashMap<String, Object> hashMap = new HashMap<>();
+
+                    hashMap.put("phone", txtPhoneNumber.getText().toString());
+                    hashMap.put("email", txtEmailAddress.getText().toString());
+                    hashMap.put("role", txtRole.getText().toString());
+                    hashMap.put("location", txtLocation.getText().toString());
+                    hashMap.put("description", txtAbout.getText().toString());
+
+
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users")
+                            .child(currentUserId);
+                    reference.updateChildren(hashMap);
+                }
+            };
+
+            // set text change listener
+            txtPhoneNumber.addTextChangedListener(textWatcher);
+            txtEmailAddress.addTextChangedListener(textWatcher);
+            txtRole.addTextChangedListener(textWatcher);
+            txtLocation.addTextChangedListener(textWatcher);
+            txtAbout.addTextChangedListener(textWatcher);
+
         } else {
+            // don't allow other users to edit details
+            txtPhoneNumber.setEnabled(false);
+            txtEmailAddress.setEnabled(false);
+            txtRole.setEnabled(false);
+            txtLocation.setEnabled(false);
+            txtAbout.setEnabled(false);
+
+            // set text back to a black colour (un-enabled is grey)
+            txtPhoneNumber.setTextColor(getResources().getColor(R.color.colorBlack,null));
+            txtEmailAddress.setTextColor(getResources().getColor(R.color.colorBlack,null));
+            txtRole.setTextColor(getResources().getColor(R.color.colorBlack,null));
+            txtLocation.setTextColor(getResources().getColor(R.color.colorBlack,null));
+            txtAbout.setTextColor(getResources().getColor(R.color.colorBlack,null));
+
+            // listener for new message
             btnNewMessage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
