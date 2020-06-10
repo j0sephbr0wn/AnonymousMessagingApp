@@ -151,11 +151,11 @@ public class RegisterActivity extends MyAppActivity {
                                 hashMap.put("email", email);
                                 hashMap.put("username", username);
                                 hashMap.put("imageURL", "default");
-                                hashMap.put("description", "No description set");
+                                hashMap.put("description", "Description not set");
                                 hashMap.put("champion", true);
-                                hashMap.put("phone", "default");
-                                hashMap.put("role", "default");
-                                hashMap.put("location", "default");
+                                hashMap.put("phone", "Phone number not set");
+                                hashMap.put("role", "Role not set");
+                                hashMap.put("location", "Location not set");
                                 hashMap.put("token", "default");
                             } else {
                                 // build document
