@@ -33,12 +33,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -69,8 +71,39 @@ public class MainActivity extends MyAppActivity {
         fabNewMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Query query = FirebaseDatabase.getInstance().getReference("Users")
+                        .orderByChild("champion")
+                        .equalTo(true);
 
-                startActivity(new Intent(MainActivity.this, SetupChatActivity.class));
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        User latestOnline = null;
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            User user = snapshot.getValue(User.class);
+                            assert user != null;
+
+                            if (latestOnline == null) {
+                                latestOnline = user;
+                            } else {
+                                if (latestOnline.getStatusOnlineTime().before(user.getStatusOnlineTime())) {
+                                    latestOnline = user;
+                                }
+                            }
+                        }
+
+
+                        Intent intent = new Intent(MainActivity.this, SetupChatActivity.class);
+                        intent.putExtra("championId", latestOnline.getId());
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 

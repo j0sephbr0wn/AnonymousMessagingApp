@@ -28,24 +28,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/ubuntu"
             android:maxLines="1"
-            android:text="@string/placeholder_string"
             android:textSize="18sp" />
-
-        <!--
-        <TextView
-            android:id="@+id/small_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/main_text"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/ubuntu"
-            android:maxLines="1"
-            android:text="@string/placeholder_string"
-            android:textSize="14sp" />
-            -->
 
         <TextView
             android:id="@+id/sub_text"
@@ -59,7 +42,6 @@
             android:ellipsize="end"
             android:fontFamily="@font/ubuntu"
             android:maxLines="1"
-            android:text="@string/placeholder_string"
             android:textSize="14sp" />
 
         <ImageView

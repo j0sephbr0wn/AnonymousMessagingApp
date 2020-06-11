@@ -3,6 +3,8 @@ package com.brownjs.anonymousmessagingapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,16 +12,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brownjs.anonymousmessagingapp.adapters.ChatsAdapter;
+import com.brownjs.anonymousmessagingapp.model.Chat;
+import com.brownjs.anonymousmessagingapp.model.User;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SetupChatActivity extends AppCompatActivity {
 
@@ -44,6 +57,33 @@ public class SetupChatActivity extends AppCompatActivity {
         // get ui elements
         final EditText txtSubject = findViewById(R.id.editText_new_subject);
         Button btnNewMessage = findViewById(R.id.btn_new_message);
+
+        // get champion information
+        FirebaseDatabase.getInstance().getReference("Users")
+                .child(championId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        User champion = dataSnapshot.getValue(User.class);
+                        assert champion != null;
+
+                        CircleImageView imgProfile = findViewById(R.id.profile_image);
+                        TextView txtChampionName = findViewById(R.id.champion_name);
+
+                        Glide.with(getApplicationContext())
+                                .load(champion.getImageURL())
+                                .into(imgProfile);
+
+                        txtChampionName.setText(champion.getUsername());
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
 
         // set on click listener
         btnNewMessage.setOnClickListener(new View.OnClickListener() {
