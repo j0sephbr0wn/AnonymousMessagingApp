@@ -71,6 +71,8 @@
             android:fontFamily="@font/ubuntu"
             android:hint="Type a message"
             android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="6"
+            android:scrollbars="vertical"
             android:singleLine="false" />
 
         <ImageView
