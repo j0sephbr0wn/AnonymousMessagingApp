@@ -33,6 +33,7 @@ public abstract class MyAppActivity extends AppCompatActivity {
 
     private static final String ANONYMOUS_EMAIL_SUFFIX = "@anonymous.com";
     private static final String CHAMPION_EMAIL_SUFFIX = "@capgemini.com";
+    private static final String CHAMPION_REGISTER_CODE = "1234";
 
 
     public MyAppActivity() {
@@ -56,6 +57,10 @@ public abstract class MyAppActivity extends AppCompatActivity {
 
     String getChampionEmailSuffix() {
         return CHAMPION_EMAIL_SUFFIX;
+    }
+
+    String getChampionRegisterCode() {
+        return CHAMPION_REGISTER_CODE;
     }
 
     /**

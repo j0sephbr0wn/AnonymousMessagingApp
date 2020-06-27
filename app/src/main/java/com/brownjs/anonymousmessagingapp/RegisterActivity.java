@@ -30,6 +30,8 @@ public class RegisterActivity extends MyAppActivity {
     private EditText txtRegEmail;
     private EditText txtRegPassword;
     private EditText txtRegUsername;
+    private EditText txtChampionCode;
+    private EditText txtSecretWord;
 
     /**
      * {@inheritDoc}
@@ -53,6 +55,8 @@ public class RegisterActivity extends MyAppActivity {
         txtRegEmail = findViewById(R.id.editText_reg_email);
         txtRegPassword = findViewById(R.id.editText_reg_password);
         txtRegUsername = findViewById(R.id.editText_reg_username);
+        txtChampionCode = findViewById(R.id.editText_champion_code);
+        txtSecretWord = findViewById(R.id.editText_secret_word);
         TextView txtRegInfo = findViewById(R.id.textView_reg_info);
         Button btnRegCred = findViewById(R.id.btn_reg_cred);
         Button btnRegAnon = findViewById(R.id.btn_reg_anon);
@@ -64,6 +68,7 @@ public class RegisterActivity extends MyAppActivity {
                 String email = txtRegEmail.getText().toString();
                 String password = txtRegPassword.getText().toString();
                 String username = txtRegUsername.getText().toString();
+                String code = txtChampionCode.getText().toString();
 
                 // check if all fields are filled it
                 if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
@@ -76,7 +81,11 @@ public class RegisterActivity extends MyAppActivity {
                 // check email is Capgemini email address
                 else if (!email.endsWith(getChampionEmailSuffix())) {
                     Toast.makeText(RegisterActivity.this, "Email must be a Capgemini address.", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else if (!code.equals(getChampionRegisterCode())) {
+                    Toast.makeText(RegisterActivity.this, "Code does not match, please contact an admin.", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     register(email, password, username);
                 }
             }
@@ -86,7 +95,14 @@ public class RegisterActivity extends MyAppActivity {
             @Override
             public void onClick(View v) {
 
-                register(getPseudoId(), getDefaultPassword(), null);
+                String secretWord = txtSecretWord.getText().toString();
+
+                if (secretWord.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "Please choose a secret word.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    register(getPseudoId(), secretWord, null);
+                }
             }
         });
 

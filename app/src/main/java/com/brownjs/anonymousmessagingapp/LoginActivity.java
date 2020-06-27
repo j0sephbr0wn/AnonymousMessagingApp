@@ -23,6 +23,7 @@ public class LoginActivity extends MyAppActivity {
 
     private EditText txtLoginEmail;
     private EditText txtLoginPassword;
+    private EditText txtSecretWord;
 
     /**
      * {@inheritDoc}
@@ -44,6 +45,7 @@ public class LoginActivity extends MyAppActivity {
         // get layout elements
         txtLoginEmail = findViewById(R.id.editText_login_email);
         txtLoginPassword = findViewById(R.id.editText_login_password);
+        txtSecretWord = findViewById(R.id.editText_secret_word);
         Button btnLoginCred = findViewById(R.id.btn_login_cred);
         Button btnLoginAnon = findViewById(R.id.btn_login_anon);
 
@@ -57,7 +59,7 @@ public class LoginActivity extends MyAppActivity {
 
                 // check if both are filled in
                 if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Please enter all fields.", Toast.LENGTH_SHORT).show();
                 } else {
                     // fields are valid, proceed to login
                     login(email, password);
@@ -70,7 +72,14 @@ public class LoginActivity extends MyAppActivity {
             @Override
             public void onClick(View v) {
 
-                login(getPseudoId(), getDefaultPassword());
+                String secretWord = txtSecretWord.getText().toString();
+
+                if (secretWord.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Please enter your secret word.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    login(getPseudoId(), secretWord);
+                }
             }
         });
     }
