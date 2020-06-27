@@ -77,6 +77,18 @@
             android:text="or"
             android:textColor="@color/colorGray" />
 
+        <EditText
+            android:id="@+id/editText_secret_word"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:autofillHints="password"
+            android:fontFamily="@font/ubuntu"
+            android:hint="Secret word"
+            android:inputType="textPassword"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
+
         <Button
             android:id="@+id/btn_login_anon"
             android:layout_width="match_parent"

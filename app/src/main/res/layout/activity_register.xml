@@ -66,6 +66,17 @@
             android:textColor="@color/colorGray"
             android:textColorHint="@color/colorGray" />
 
+        <EditText
+            android:id="@+id/editText_champion_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/ubuntu"
+            android:hint="Code"
+            android:inputType="number"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
+
         <Button
             android:id="@+id/btn_reg_cred"
             android:layout_width="match_parent"
@@ -86,6 +97,17 @@
             android:text="or"
             android:textColor="@color/colorGray"
             android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/editText_secret_word"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/ubuntu"
+            android:hint="Choose a secret word"
+            android:inputType="textCapWords|textPersonName"
+            android:textColor="@color/colorGray"
+            android:textColorHint="@color/colorGray" />
 
         <Button
             android:id="@+id/btn_reg_anon"
