@@ -36,6 +36,7 @@ public class ChatsFragment extends Fragment {
     private boolean isChampion;
 
     private ArrayList<Chat> chatList = new ArrayList<>();
+    private ArrayList<Chat> archivedList = new ArrayList<>();
     private ArrayList<User> userList = new ArrayList<>();
 
     private ChatsAdapter chatsAdapter;
@@ -92,14 +93,22 @@ public class ChatsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 chatList.clear();
+                archivedList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Chat chat = snapshot.getValue(Chat.class);
+                    assert chat != null;
 
-                    chatList.add(chat);
+                    if (chat.isArchived()) {
+                        archivedList.add(chat);
+                    }
+                    else {
+                        chatList.add(chat);
+                    }
                 }
 
                 Collections.sort(chatList);
+                Collections.sort(archivedList);
 
                 chatsAdapter.updateChatList(chatList);
             }

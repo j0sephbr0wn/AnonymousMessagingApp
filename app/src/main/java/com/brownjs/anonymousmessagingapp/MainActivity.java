@@ -2,7 +2,6 @@ package com.brownjs.anonymousmessagingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +22,6 @@ import com.brownjs.anonymousmessagingapp.fragments.ChatsFragment;
 import com.brownjs.anonymousmessagingapp.model.User;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -40,7 +38,6 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -95,6 +92,7 @@ public class MainActivity extends MyAppActivity {
 
 
                         Intent intent = new Intent(MainActivity.this, SetupChatActivity.class);
+                        assert latestOnline != null;
                         intent.putExtra("championId", latestOnline.getId());
                         startActivity(intent);
                     }

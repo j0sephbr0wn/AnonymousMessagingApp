@@ -128,6 +128,7 @@ public class SetupChatActivity extends AppCompatActivity {
                     newChat.put("latest_messager", championId);
                     newChat.put("read", false);
                     newChat.put("subject", subject);
+                    newChat.put("archived", false);
 
                     // put new chat in document store
                     chatsReference.child(chatKey).setValue(newChat);

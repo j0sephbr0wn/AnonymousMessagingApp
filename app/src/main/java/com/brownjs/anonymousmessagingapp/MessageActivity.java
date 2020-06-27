@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -197,6 +199,35 @@ public class MessageActivity extends MyAppActivity {
 
                     //reset for next message
                     txtNewMessage.setText("");
+                }
+            });
+
+            // set listener for message menu
+            final ImageView btnMore = findViewById(R.id.btn_more);
+            btnMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // create and inflate the menu
+                    PopupMenu popup = new PopupMenu(MessageActivity.this, btnMore);
+                    popup.getMenuInflater().inflate(R.menu.menu_message, popup.getMenu());
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+
+                            // create data to push to document
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("archived", true);
+
+                            // push to document
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats")
+                                    .child(chatId);
+                            reference.updateChildren(hashMap);
+                            return true;
+                        }
+                    });
+
+                    //showing popup menu
+                    popup.show();
                 }
             });
 

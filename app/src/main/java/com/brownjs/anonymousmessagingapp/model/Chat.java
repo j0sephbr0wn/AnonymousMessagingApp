@@ -16,9 +16,11 @@ public class Chat implements Comparable<Chat>{
     private String latest_message_time;
     private String latest_messager;
     private boolean read;
+    private boolean archived;
 
     public Chat(String id, String initiator, String champion, String champion_display_name, String subject,
-                String latest_message, String latest_message_time, String latest_messager, boolean read) {
+                String latest_message, String latest_message_time, String latest_messager, boolean read,
+                boolean archived) {
         this.id = id;
         this.initiator = initiator;
         this.champion = champion;
@@ -28,6 +30,7 @@ public class Chat implements Comparable<Chat>{
         this.latest_message_time = latest_message_time;
         this.latest_messager = latest_messager;
         this.read = read;
+        this.archived = archived;
     }
 
     public Chat() {
@@ -125,6 +128,14 @@ public class Chat implements Comparable<Chat>{
 
     public void setRead(boolean read) {
         this.read = read;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 
     @Override
