@@ -4,6 +4,6 @@
 
     <item
         android:id="@+id/archive"
-        android:title="Mark chat as finished?"
+        android:title="Toggle Archived"
         app:showAsAction="never" />
 </menu>

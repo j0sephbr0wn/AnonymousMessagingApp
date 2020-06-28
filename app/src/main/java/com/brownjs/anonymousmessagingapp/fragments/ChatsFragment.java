@@ -66,7 +66,7 @@ public class ChatsFragment extends Fragment {
         recyclerViewChats.setHasFixedSize(true);
         recyclerViewChats.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        chatsAdapter = new ChatsAdapter(getContext(), chatList, userList);
+        chatsAdapter = new ChatsAdapter(getContext());
         recyclerViewChats.setAdapter(chatsAdapter);
 
         return view;
@@ -111,6 +111,7 @@ public class ChatsFragment extends Fragment {
                 Collections.sort(archivedList);
 
                 chatsAdapter.updateChatList(chatList);
+                chatsAdapter.updateArchivedList(archivedList);
             }
 
             @Override

@@ -30,22 +30,29 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     private Context context;
 
     private ArrayList<Chat> chatList;
+    private ArrayList<Chat> archivedList;
     private ArrayList<User> userList;
 
     private ArrayList<Object> viewList;
     private ArrayList<Integer> typeList;
 
+    private boolean archiveHidden;
+
     private boolean isChampion;
 
-    public ChatsAdapter(Context context, ArrayList<Chat> chatList, ArrayList<User> userList) {
+    public ChatsAdapter(Context context) {
         this.context = context;
-        this.chatList = chatList;
-        this.userList = userList;
+
+        chatList = new ArrayList<>();
+        archivedList = new ArrayList<>();
+        userList = new ArrayList<>();
 
         viewList = new ArrayList<>();
         typeList = new ArrayList<>();
 
         buildViewLists();
+
+        archiveHidden = true;
     }
 
     @Override
@@ -56,15 +63,21 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == 0 || viewType == 2) {
-            return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false), viewType);
-        }
+        switch (viewType) {
+            case 0:
+            case 2:
+            case 3:
+                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false), viewType);
+            case 1:
+                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_divider_champions, parent, false), viewType);
+            default:
+                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_divider_archive, parent, false), viewType);
 
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_divider, parent, false), viewType);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         int viewType = typeList.get(position);
 
         PrettyTime p = new PrettyTime();
@@ -72,6 +85,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         switch (viewType) {
             // chat view
             case 0:
+            case 3:
                 final Chat chat = (Chat) viewList.get(position);
 
                 final String otherUserId;
@@ -122,6 +136,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                     }
                 });
 
+//                if (viewType == 3) {
+//                    if (archiveHidden) {
+//                        holder.itemView.setVisibility(View.GONE);
+//                    } else {
+//                        holder.itemView.setVisibility(View.VISIBLE);
+//                    }
+//                }
+
                 break;
 
             // user view
@@ -165,6 +187,26 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                 });
 
                 break;
+
+            case 4:
+
+                String dividerText;
+                if (archiveHidden) {
+                    dividerText = "Show archived chats (" + archivedList.size() + ")";
+                } else {
+                    dividerText = "Hide archived chats";
+                }
+
+                holder.txtDivider.setText(dividerText);
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        archiveHidden = !archiveHidden;
+
+                        refreshLists();
+                    }
+                });
         }
     }
 
@@ -186,6 +228,8 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        View itemView;
+
         CircleImageView imgProfile;
 
         TextView txtMain;
@@ -197,10 +241,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         CircleImageView imgOnline;
         CircleImageView imgOffline;
 
+        TextView txtDivider;
+
 
         private ViewHolder(@NonNull View itemView, int viewType) {
             super(itemView);
-            if (viewType == 0 || viewType == 2) {
+            this.itemView = itemView;
+            if (viewType == 0 || viewType == 2 || viewType == 3) {
+
                 imgProfile = itemView.findViewById(R.id.profile_image);
 
                 txtMain = itemView.findViewById(R.id.main_text);
@@ -212,14 +260,19 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                 imgOnline = itemView.findViewById(R.id.online);
                 imgOffline = itemView.findViewById(R.id.offline);
             }
+            else {
+                txtDivider = itemView.findViewById(R.id.divider_text);
+            }
 
         }
     }
 
     /**
      * type 0 = chat
-     * type 1 = divider
+     * type 1 = champions divider
      * type 2 = user
+     * type 3 = archived chat
+     * type 4 = archived chats divider
      */
     private void buildViewLists() {
         viewList.clear();
@@ -228,6 +281,18 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         for (Chat chat : chatList) {
             viewList.add(chat);
             typeList.add(0);
+        }
+
+        if (!archivedList.isEmpty()) {
+            viewList.add(4);
+            typeList.add(4);
+
+            if (!archiveHidden) {
+                for (Chat chat : archivedList) {
+                    viewList.add(chat);
+                    typeList.add(3);
+                }
+            }
         }
 
         // if the list of champions is empty we can infer this is a champion logged in
@@ -252,13 +317,18 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         buildViewLists();
     }
 
+    public void updateArchivedList(ArrayList<Chat> archivedList) {
+        this.archivedList = archivedList;
+        buildViewLists();
+    }
+
     public void updateUserList(ArrayList<User> userList) {
         this.userList = userList;
         buildViewLists();
     }
 
     public void refreshLists() {
-        notifyDataSetChanged();
+        buildViewLists();
     }
 }
 

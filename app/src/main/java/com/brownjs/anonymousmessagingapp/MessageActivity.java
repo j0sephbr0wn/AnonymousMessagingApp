@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -214,14 +213,35 @@ public class MessageActivity extends MyAppActivity {
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(MenuItem item) {
 
-                            // create data to push to document
-                            HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("archived", true);
+                            FirebaseDatabase.getInstance().getReference("Chats")
+                                    .child(chatId)
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            Chat chat = dataSnapshot.getValue(Chat.class);
+                                            assert chat != null;
 
-                            // push to document
-                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats")
-                                    .child(chatId);
-                            reference.updateChildren(hashMap);
+                                            // create data to push to document
+                                            HashMap<String, Object> hashMap = new HashMap<>();
+
+                                            if (chat.isArchived()) {
+                                                hashMap.put("archived", false);
+                                            } else {
+                                                hashMap.put("archived", true);
+                                            }
+
+                                            // push to document
+                                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats")
+                                                    .child(chatId);
+                                            reference.updateChildren(hashMap);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
                             return true;
                         }
                     });
