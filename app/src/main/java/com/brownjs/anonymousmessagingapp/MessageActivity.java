@@ -242,6 +242,8 @@ public class MessageActivity extends MyAppActivity {
                                         }
                                     });
 
+                            onBackPressed();
+
                             return true;
                         }
                     });
