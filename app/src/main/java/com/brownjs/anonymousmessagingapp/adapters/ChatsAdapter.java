@@ -136,14 +136,6 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                     }
                 });
 
-//                if (viewType == 3) {
-//                    if (archiveHidden) {
-//                        holder.itemView.setVisibility(View.GONE);
-//                    } else {
-//                        holder.itemView.setVisibility(View.VISIBLE);
-//                    }
-//                }
-
                 break;
 
             // user view
@@ -193,10 +185,21 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                 String dividerText;
                 if (archiveHidden) {
                     dividerText = "Show archived chats (" + archivedList.size() + ")";
+                    holder.txtDivider.setCompoundDrawablesWithIntrinsicBounds(
+                            0,
+                            0,
+                            R.drawable.ic_arrow_drop_down_24,
+                            0);
                 } else {
-                    dividerText = "Hide archived chats";
+                    dividerText = "Hide archived chats (" + archivedList.size() + ")";
+                    holder.txtDivider.setCompoundDrawablesWithIntrinsicBounds(
+                            0,
+                            0,
+                            R.drawable.ic_arrow_drop_up_24,
+                            0);
                 }
 
+//                dividerText = archivedList.size() + " archived chat(s) ";
                 holder.txtDivider.setText(dividerText);
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
