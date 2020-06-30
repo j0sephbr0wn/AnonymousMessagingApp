@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.1" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.brownjs.anonymousmessagingapp">
 
@@ -9,8 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_cap_alt"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SetupChatActivity"></activity>
-        <activity android:name=".Main2Activity" />
+        <activity android:name=".SetupChatActivity" />
         <activity android:name=".ProfileActivity" />
         <activity
             android:name=".MessageActivity"

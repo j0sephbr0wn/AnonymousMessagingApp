@@ -6,13 +6,9 @@
     android:background="@color/colorMetallicGray"
     tools:context=".fragments.ChampionsFragment">
 
-    <TextView
+    <ImageView
+        android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fontFamily="@font/ubuntu"
-        android:gravity="center"
-        android:text="Champions Only"
-        android:textColor="@color/colorTechRed"
-        android:textSize="50sp" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

@@ -67,11 +67,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
             case 0:
             case 2:
             case 3:
-                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false), viewType);
+                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_chat,
+                        parent, false), viewType);
             case 1:
-                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_divider_champions, parent, false), viewType);
+                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_divider_champions,
+                        parent, false), viewType);
             default:
-                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_divider_archive, parent, false), viewType);
+                return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_divider_archive,
+                        parent, false), viewType);
 
         }
     }
@@ -199,7 +202,6 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
                             0);
                 }
 
-//                dividerText = archivedList.size() + " archived chat(s) ";
                 holder.txtDivider.setText(dividerText);
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -245,7 +247,6 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         CircleImageView imgOffline;
 
         TextView txtDivider;
-
 
         private ViewHolder(@NonNull View itemView, int viewType) {
             super(itemView);
