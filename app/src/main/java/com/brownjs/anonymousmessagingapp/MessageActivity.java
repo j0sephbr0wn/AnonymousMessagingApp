@@ -32,6 +32,9 @@ import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Activity to display messages in a chat to user
+ */
 public class MessageActivity extends MyAppActivity {
 
     private String chatId;
@@ -43,6 +46,11 @@ public class MessageActivity extends MyAppActivity {
 
     private MessagesAdapter messagesAdapter;
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -355,6 +363,12 @@ public class MessageActivity extends MyAppActivity {
         markAsReadReference.removeEventListener(newMessageListener);
     }
 
+    /**
+     * Function that returns a drawable id based on the hash of a object
+     *
+     * @param uidHash of object
+     * @return drawable int
+     */
     private int getDefaultImage(int uidHash) {
         switch (Math.abs(uidHash) % 3) {
             case 0:

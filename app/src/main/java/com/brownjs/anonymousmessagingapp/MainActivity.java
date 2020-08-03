@@ -42,8 +42,16 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Activity to hold fragments
+ */
 public class MainActivity extends MyAppActivity {
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,6 +205,13 @@ public class MainActivity extends MyAppActivity {
 
     }
 
+    /**
+     * Depending on user show available menu items
+     * {@inheritDoc}
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -217,6 +232,11 @@ public class MainActivity extends MyAppActivity {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -264,7 +284,7 @@ public class MainActivity extends MyAppActivity {
     }
 
     /**
-     *
+     * Subscribe user to notifications of champions coming online
      */
     private void subscribeToStatusChanges() {
 
@@ -279,6 +299,9 @@ public class MainActivity extends MyAppActivity {
                 });
     }
 
+    /**
+     * Refresh token for notifications
+     */
     private void refreshToken() {
 
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -310,7 +333,7 @@ public class MainActivity extends MyAppActivity {
     }
 
     /**
-     *
+     *Adapter for view pager
      */
     public static class ViewPagerAdapter extends FragmentPagerAdapter {
 

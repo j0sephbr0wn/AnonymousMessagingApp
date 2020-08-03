@@ -26,12 +26,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Class to display list of chats and champions available to current user
  */
 public class ChatsFragment extends Fragment {
 
     private FirebaseUser firebaseUser;
-//    private DatabaseReference reference;
 
     private boolean isChampion;
 
@@ -46,6 +45,14 @@ public class ChatsFragment extends Fragment {
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,6 +79,9 @@ public class ChatsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Populates and sets the adapter with the chats a user has access to
+     */
     private void getChatList() {
 
         assert firebaseUser != null;
@@ -101,8 +111,7 @@ public class ChatsFragment extends Fragment {
 
                     if (chat.isArchived()) {
                         archivedList.add(chat);
-                    }
-                    else {
+                    } else {
                         chatList.add(chat);
                     }
                 }
@@ -121,6 +130,9 @@ public class ChatsFragment extends Fragment {
         });
     }
 
+    /**
+     * Populates and sets the adapter with the champions a user has access to
+     */
     private void getUserList() {
         Query query = FirebaseDatabase.getInstance().getReference("Users")
                 .orderByChild("champion")
@@ -156,6 +168,9 @@ public class ChatsFragment extends Fragment {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onResume() {
         super.onResume();

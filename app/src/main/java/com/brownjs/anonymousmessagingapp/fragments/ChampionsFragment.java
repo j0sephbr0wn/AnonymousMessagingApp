@@ -1,34 +1,37 @@
 package com.brownjs.anonymousmessagingapp.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.fragment.app.Fragment;
+
 import com.brownjs.anonymousmessagingapp.R;
-import com.bumptech.glide.Glide;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Class is not currently used
  */
 public class ChampionsFragment extends Fragment {
 
+    /**
+     * Constructor
+     */
     public ChampionsFragment() {
         // Required empty public constructor
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

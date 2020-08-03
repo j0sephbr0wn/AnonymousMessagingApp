@@ -25,6 +25,9 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Adapter for displaying chat and user items in view
+ */
 public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> {
 
     private Context context;
@@ -40,6 +43,11 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
     private boolean isChampion;
 
+    /**
+     * Constructor to initialise class
+     *
+     * @param context context
+     */
     public ChatsAdapter(Context context) {
         this.context = context;
 
@@ -55,11 +63,25 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         archiveHidden = true;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param position
+     * @return
+     */
     @Override
     public int getItemViewType(int position) {
         return typeList.get(position);
     }
 
+    /**
+     * Returns a new view based on the type
+     * {@inheritDoc}
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -79,6 +101,12 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         int viewType = typeList.get(position);
@@ -215,6 +243,12 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         }
     }
 
+    /**
+     * Function that returns a drawable id based on the hash of a object
+     *
+     * @param uidHash of object
+     * @return drawable int
+     */
     private int getDefaultImage(int uidHash) {
         switch (Math.abs(uidHash) % 3) {
             case 0:
@@ -226,11 +260,19 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return viewList.size();
     }
 
+    /**
+     * Class to provide ViewHolder for RecyclerView
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         View itemView;
@@ -248,6 +290,12 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
         TextView txtDivider;
 
+        /**
+         * Constructor
+         *
+         * @param itemView view
+         * @param viewType type of view
+         */
         private ViewHolder(@NonNull View itemView, int viewType) {
             super(itemView);
             this.itemView = itemView;
@@ -263,8 +311,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
 
                 imgOnline = itemView.findViewById(R.id.online);
                 imgOffline = itemView.findViewById(R.id.offline);
-            }
-            else {
+            } else {
                 txtDivider = itemView.findViewById(R.id.divider_text);
             }
 
@@ -272,6 +319,8 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
     }
 
     /**
+     * Builds lists used to populate the RecyclerView
+     * Type key:
      * type 0 = chat
      * type 1 = champions divider
      * type 2 = user
@@ -316,21 +365,36 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    /**
+     * Update chatList
+     * @param chatList to replace current
+     */
     public void updateChatList(ArrayList<Chat> chatList) {
         this.chatList = chatList;
         buildViewLists();
     }
 
+    /**
+     * Update archivedList
+     * @param archivedList to replace current
+     */
     public void updateArchivedList(ArrayList<Chat> archivedList) {
         this.archivedList = archivedList;
         buildViewLists();
     }
 
+    /**
+     * Update userList
+     * @param userList to replace current
+     */
     public void updateUserList(ArrayList<User> userList) {
         this.userList = userList;
         buildViewLists();
     }
 
+    /**
+     * Refresh lists
+     */
     public void refreshLists() {
         buildViewLists();
     }

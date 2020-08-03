@@ -19,6 +19,9 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Locale;
 
+/**
+ * Abstract class to provide common functionality to activities
+ */
 public abstract class MyAppActivity extends AppCompatActivity {
 
     private static final String DEFAULT_PASSWORD = "default_password";
@@ -36,11 +39,14 @@ public abstract class MyAppActivity extends AppCompatActivity {
     private static final String CHAMPION_REGISTER_CODE = "1234";
 
 
+    /**
+     * Empty constructor
+     */
     public MyAppActivity() {
     }
 
     /**
-     * @return a id ...
+     * @return default password
      */
     String getDefaultPassword() {
 
@@ -48,17 +54,23 @@ public abstract class MyAppActivity extends AppCompatActivity {
     }
 
     /**
-     * @return a id ...
+     * @return pseudo id
      */
     String getPseudoId() {
         // return a (nearly) unique id from the users hardware
         return PSEUDO_ID + ANONYMOUS_EMAIL_SUFFIX;
     }
 
+    /**
+     * @return email suffix of a champion
+     */
     String getChampionEmailSuffix() {
         return CHAMPION_EMAIL_SUFFIX;
     }
 
+    /**
+     * @return register code that a champion must match to
+     */
     String getChampionRegisterCode() {
         return CHAMPION_REGISTER_CODE;
     }
@@ -98,6 +110,11 @@ public abstract class MyAppActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Update status of current user in database
+     *
+     * @param status to change to
+     */
     void status(final String status) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
@@ -123,6 +140,9 @@ public abstract class MyAppActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -130,6 +150,9 @@ public abstract class MyAppActivity extends AppCompatActivity {
         status("offline");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onResume() {
         super.onResume();

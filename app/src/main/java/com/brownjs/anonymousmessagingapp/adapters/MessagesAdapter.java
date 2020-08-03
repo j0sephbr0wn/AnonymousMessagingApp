@@ -20,6 +20,9 @@ import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * Adapter to display messages in chat in RecyclerView
+ */
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHolder> {
 
     private Context context;
@@ -31,6 +34,14 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     private User otherUser;
     private boolean seen;
 
+    /**
+     * Constructor
+     *
+     * @param context     context
+     * @param userId      of current user
+     * @param chatId      of current chat
+     * @param messageList for current chat
+     */
     public MessagesAdapter(Context context, String userId, String chatId, ArrayList<Message> messageList) {
         this.context = context;
         this.userId = userId;
@@ -38,6 +49,12 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         this.messageList = messageList;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param position
+     * @return
+     */
     @Override
     public int getItemViewType(int position) {
         int type = 100;
@@ -51,6 +68,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         return type;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -61,6 +85,12 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_message_right, parent, false), viewType);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
@@ -116,6 +146,12 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         }
     }
 
+    /**
+     * Format the timestamp of a given message to a human readable 'pretty' form
+     *
+     * @param message to be formatted
+     * @return formatted time
+     */
     private String formatMessageTime(Message message) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.UK);
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd MMM", Locale.UK);
@@ -130,11 +166,19 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         return timeText;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return messageList.size();
     }
 
+    /**
+     * Class to provide ViewHolder for RecyclerView
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView imgProfile;
@@ -143,6 +187,12 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         TextView txtTime;
         TextView txtSeen;
 
+        /**
+         * Constructor
+         *
+         * @param itemView view
+         * @param viewType type of view
+         */
         private ViewHolder(@NonNull View itemView, int viewType) {
             super(itemView);
 
@@ -150,30 +200,50 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                 imgProfile = itemView.findViewById(R.id.profile_image);
                 txtName = itemView.findViewById(R.id.textView_name);
                 txtMessage = itemView.findViewById(R.id.textView_message);
-                txtTime = itemView.findViewById(R.id.textView_time);
             } else {
                 txtMessage = itemView.findViewById(R.id.textView_message);
                 txtSeen = itemView.findViewById(R.id.textView_seen);
-                txtTime = itemView.findViewById(R.id.textView_time);
             }
+            txtTime = itemView.findViewById(R.id.textView_time);
         }
     }
 
+    /**
+     * Update messageList
+     *
+     * @param messageList to replace current
+     */
     public void updateMessages(ArrayList<Message> messageList) {
         this.messageList = messageList;
         notifyDataSetChanged();
     }
 
+    /**
+     * Set identity of other user
+     *
+     * @param otherUser to be set
+     */
     public void setOtherUser(User otherUser) {
         this.otherUser = otherUser;
         notifyDataSetChanged();
     }
 
+    /**
+     * Set a chat to either 'seen' or 'unseen'
+     *
+     * @param seen to be set
+     */
     public void setSeen(boolean seen) {
         this.seen = seen;
         notifyDataSetChanged();
     }
 
+    /**
+     * Function that returns a drawable id based on the hash of a object
+     *
+     * @param uidHash of object
+     * @return drawable int
+     */
     private int getDefaultImage(int uidHash) {
         switch (Math.abs(uidHash) % 3) {
             case 0:
