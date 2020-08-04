@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class StartActivity extends MyAppActivity {
 
     /**
-     *
+     * {@inheritDoc}
      */
     @Override
     protected void onStart() {
@@ -35,6 +35,7 @@ public class StartActivity extends MyAppActivity {
 
     /**
      * {@inheritDoc}
+     *
      * @param savedInstanceState
      */
     @Override

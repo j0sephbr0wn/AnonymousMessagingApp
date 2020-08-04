@@ -45,7 +45,10 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileActivity extends MyAppActivity{
+/**
+ * Activity to display champions profile to user
+ */
+public class ProfileActivity extends MyAppActivity {
 
     private static final int REQUEST_READ_EXTERNAL_PERMISSION = 11;
     private static final int IMAGE_REQUEST = 22;
@@ -61,6 +64,11 @@ public class ProfileActivity extends MyAppActivity{
     private TextView txtLocation;
     private TextView txtAbout;
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,11 +162,11 @@ public class ProfileActivity extends MyAppActivity{
             txtAbout.setEnabled(false);
 
             // set text back to a black colour (un-enabled is grey)
-            txtPhoneNumber.setTextColor(getResources().getColor(R.color.colorBlack,null));
-            txtEmailAddress.setTextColor(getResources().getColor(R.color.colorBlack,null));
-            txtRole.setTextColor(getResources().getColor(R.color.colorBlack,null));
-            txtLocation.setTextColor(getResources().getColor(R.color.colorBlack,null));
-            txtAbout.setTextColor(getResources().getColor(R.color.colorBlack,null));
+            txtPhoneNumber.setTextColor(getResources().getColor(R.color.colorBlack, null));
+            txtEmailAddress.setTextColor(getResources().getColor(R.color.colorBlack, null));
+            txtRole.setTextColor(getResources().getColor(R.color.colorBlack, null));
+            txtLocation.setTextColor(getResources().getColor(R.color.colorBlack, null));
+            txtAbout.setTextColor(getResources().getColor(R.color.colorBlack, null));
 
             // listener for new message
             btnNewMessage.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +249,9 @@ public class ProfileActivity extends MyAppActivity{
         return true;
     }
 
+    /**
+     * Kicks off intent to set a new profile image for a champion
+     */
     // create intent for image request
     private void setNewProfileImage() {
 
@@ -263,7 +274,14 @@ public class ProfileActivity extends MyAppActivity{
         startActivityForResult(intent, IMAGE_REQUEST);
     }
 
-    // result for image request
+    /**
+     * Receives the result of an intent to change the image
+     * {@inheritDoc}
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -281,6 +299,11 @@ public class ProfileActivity extends MyAppActivity{
         }
     }
 
+    /**
+     * Upload image and display dialog when image is uploading
+     *
+     * @param imageUri of image to upload
+     */
     private void uploadNewProfileImage(Uri imageUri) {
         // show upload in progress
         final ProgressDialog pd = new ProgressDialog(this);
@@ -330,7 +353,12 @@ public class ProfileActivity extends MyAppActivity{
         });
     }
 
-    // get the file extension from a uri
+    /**
+     * Work out the file extension from a given uri
+     *
+     * @param uri to find extension
+     * @return extension
+     */
     private String getFileExtension(Uri uri) {
         ContentResolver contentResolver = this.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
