@@ -99,6 +99,9 @@ public class RegisterActivity extends MyAppActivity {
 
                 if (secretWord.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please choose a secret word.", Toast.LENGTH_SHORT).show();
+                } 
+                else if (secretWord.length() < 6){
+                    Toast.makeText(RegisterActivity.this, "Secret word must be at least 6 characters.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     register(getPseudoId(), secretWord, null);
