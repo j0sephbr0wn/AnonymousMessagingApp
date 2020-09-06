@@ -12,6 +12,6 @@
         android:fontFamily="@font/ubuntu"
         android:gravity="center"
         android:text="Additional content here"
-        android:textSize="18sp" />
+        android:textSize="24sp" />
 
 </FrameLayout>

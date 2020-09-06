@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.brownjs.anonymousmessagingapp.model.User;
@@ -32,7 +31,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Activity that allows user to select the champion they wish to talk to
  */
-public class SetupChatActivity extends AppCompatActivity {
+public class SetupChatActivity extends MyAppActivity {
 
     /**
      * {@inheritDoc}
